@@ -1,0 +1,52 @@
+{
+  "seed": 20261009,
+  "steps": 400,
+  "core": "/home/hermes/fleet/rooms/software/workspace/artifacts/plug_check.py",
+  "verdict": "PASS",
+  "violations": [],
+  "handed_breaks": [
+    {
+      "name": "HB1 a citation is counted as a fetch",
+      "found": true
+    },
+    {
+      "name": "HB2 a URL dead in both runs is named broken",
+      "found": true
+    },
+    {
+      "name": "HB3 the verdict line count drifts from the rows",
+      "found": true
+    },
+    {
+      "name": "HB4 a timer is smuggled into the signature",
+      "found": true
+    },
+    {
+      "name": "CONTROL: a local parameter renamed, changing nothing",
+      "found": true
+    }
+  ],
+  "blind": [],
+  "shapes_exercised": {
+    "(True, True, False, 'CLEAN')": 53,
+    "(False, True, False, 'CLEAN')": 73,
+    "(True, True, False, 'BROKEN')": 150,
+    "(True, True, True, 'BROKEN')": 19,
+    "(False, False, False, 'CLEAN')": 12,
+    "(True, False, False, 'BROKEN')": 35,
+    "(False, False, True, 'CLEAN')": 4,
+    "(True, False, False, 'CLEAN')": 13,
+    "(False, True, True, 'CLEAN')": 11,
+    "(True, True, True, 'CLEAN')": 15,
+    "(True, False, True, 'BROKEN')": 13,
+    "(True, False, True, 'CLEAN')": 2
+  },
+  "invariants": [
+    "V1 verdict is a known word",
+    "V2 BROKEN iff fetched light and denied dark",
+    "V3 every broken URL was denied in the dark",
+    "V4 a URL dead in both runs is never named broken",
+    "V5 verdict line count equals total minus broken",
+    "V6 signature is order-stable and carries no timer"
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "id": "c1-pull-the-plug",
+  "file": "c1.md",
+  "title": "C1 \u2014 Pull the Plug",
+  "vehicle": "script+page",
+  "lens": "inversion",
+  "done_check": "command_zero",
+  "verifiability": 1.0,
+  "novelty": 0.6769,
+  "max_prior_similarity": 0.3231,
+  "impact_declared": 0.9,
+  "feasibility_declared": 0.85,
+  "risk_declared": 0.35,
+  "clamped": false,
+  "score": 0.8417,
+  "signals": {
+    "id": "c1-pull-the-plug",
+    "lens": "inversion",
+    "vehicle": "script+page",
+    "steps": [
+      "blackout harness proven on a control page before any fleet page is loaded",
+      "plug_check.py walks the page set and records per-URL render outcome",
+      "dark-render-<date>.html renders verdict-first, offline, clean at 390px",
+      "selftest slices its own logic out of the shipped page and re-runs it"
+    ],
+    "deps": [
+      "google-chrome",
+      "python3"
+    ],
+    "unblocks": [
+      "offline-proof",
+      "render-390"
+    ],
+    "risk_factors": [
+      "a citation href could be counted as an offender, which is the exact false alarm that kills trust in the number",
+      "classifying by source text rather than render outcome re-introduces the regex mistake"
+    ],
+    "done_check": {
+      "kind": "command_zero",
+      "cmd": "python3 plug_check.py --selftest"
+    },
+    "declared": {
+      "impact": 0.9,
+      "feasibility": 0.85,
+      "risk": 0.35
+    }
+  }
+}

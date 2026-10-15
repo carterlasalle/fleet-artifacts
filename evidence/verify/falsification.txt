@@ -1,0 +1,184 @@
+PULL THE PLUG -- the falsification log
+2026-10-09 · software room · everything below was run in this session on this machine
+==================================================================================
+
+THE HEADLINE
+  49 of 49 pages draw with the network genuinely unreachable; none do not.
+  6 also fail the move test: 4 pages belong to the engineer's built blog and edge
+  fixtures, which reference sibling style.css/app.js instead of standing alone;
+  2 are the agenda portfolio (a working copy and its in-page twin).
+
+Three attackers, kept APART because they fail differently:
+
+  A. the STATIC contract   (verify_artifact.py stage 6: named invariants + pinned faults)
+  B. the ARTIFACT's own    (plug_check.py --selftest: slices its own logic out of the
+     self-test              shipped bytes and re-runs it)
+  C. the UNPINNED          (falsify_adversary.py: handed a contract, picks its own
+     adversary              steps from a seed -- it was given no fault list)
+
+A log that only lists passes is a marketing document. Every defect below is real,
+was found by one of these three, and the repair is named.
+
+----------------------------------------------------------------------------------
+A. STATIC CONTRACT -- 9 invariants on the shipped bytes
+----------------------------------------------------------------------------------
+artifact: /home/hermes/fleet/rooms/software/workspace/artifacts/dark-render-2026-10-09.html
+command:  python3 verify_artifact.py --page <artifact> --receipt plug-receipt.json
+result:   VERDICT: PASS -- 9 invariant(s) hold; 5 declared fault(s) caught; 1 control escaped
+
+invariants that hold: the first heading equals the receipt's verdict line, character
+for character; its counts equal the receipt's totals; the page loads nothing from the
+network; it renders with the network blackholed; it has no horizontal overflow at a
+390px viewport; the pages it marks BROKEN equal the receipt's broken list exactly; no
+page is marked BROKEN without a matching denial row; the signature in the page equals
+the receipt's signature.
+
+declared faults (pinned BEFORE the artifact existed -- so they could not be chosen
+after seeing which one would be awkward), each caught by its named owner:
+  F1 wrong count in the first line          -> owner I1  CAUGHT
+  F2 a remote script injected into the page -> owner I3  CAUGHT
+  F3 the page widened past 390px            -> owner I5  CAUGHT
+  F4 a page falsely marked BROKEN           -> owner I6  CAUGHT
+  F5 the signature mangled                  -> owner I7  CAUGHT
+  control: an inert whitespace change       -> CONTROL PASS (escaped, as it must)
+
+----------------------------------------------------------------------------------
+B. THE ARTIFACT'S OWN SELF-TEST
+----------------------------------------------------------------------------------
+command: python3 plug_check.py --selftest
+result:  SELFTEST: 33 checks, 0 failure(s)
+Its logic module is sliced out of the SHIPPED file between its own markers and
+re-executed in a namespace holding nothing but `re` and `json`, then driven over a
+live control pair: a page with one remote <script> must be BROKEN off-network, and a
+page with no remote anything must be CLEAN. Both hold on every run.
+Re-run determinism: the 7,448-byte verdict signature over 49 pages is
+BYTE-IDENTICAL on a second full run; only the timestamp moves.
+
+----------------------------------------------------------------------------------
+C. THE UNPINNED ADVERSARY
+----------------------------------------------------------------------------------
+command: python3 falsify_adversary.py --seed 20261009 --steps 400
+result:  PASS -- 0 invariant violation(s) on the clean core; 5 of 5 handed breaks
+         FOUND; 0 BLIND
+It was handed a CONTRACT, not a list. It picked its own pages, its own mix of
+citations and subresources, its own network outcomes and its own clock jumps, seeded
+so any hole is reproducible from the seed printed beside it. Twelve shapes of page
+were exercised (subresource present/absent x citation present/absent x sibling ref
+present/absent x verdict), 400 steps, and six invariants held after every one:
+  V1 verdict is exactly CLEAN or BROKEN
+  V2 BROKEN iff some URL was fetched with the network up AND denied with it down
+  V3 every URL named broken was in fact denied in the dark
+  V4 a URL dead in BOTH runs is never named broken
+  V5 the verdict line's count equals total minus the broken count
+  V6 the signature is order-stable and carries no timer
+handed breaks, injected into the core, each caught by its NAMED owner (a neighbour
+invariant tripping is reported separately and does not count as a pass):
+  HB1 a citation counted as a fetch          -> owner V2 CAUGHT (V4 also tripped)
+  HB2 a URL dead in both runs named broken   -> owner V4 CAUGHT (V2, V3 also tripped)
+  HB3 the verdict-line count drifts          -> owner V5 CAUGHT
+  HB4 a timer smuggled into the signature    -> owner V6 CAUGHT
+  control: a local parameter renamed, changing nothing -> CONTROL PASS
+
+==================================================================================
+WHAT BROKE, AND THE REPAIR
+==================================================================================
+Every one of these was found by RUNNING the thing. Two were found before the tool
+had produced anything at all.
+
+D1 THE SLICE ANCHOR MATCHED NINE TIMES.
+   The self-test sliced its logic out between "@SELFTEST-MODULE" banners -- and the
+   banner text also appeared in docstrings and in the artifact's own HTML. The count
+   check caught it on the first run (count=9), then AGAIN at count=2 after the first
+   fix, because the new marker literal was itself a second occurrence in the file
+   that searched for it. Repair: markers built by concatenation at search time, each
+   asserted to appear EXACTLY once, and the slice refused if not.
+   A banner that matches twice slices nothing and reports success anyway.
+
+D2 THE SLICE WOULD NOT RUN ON ITS OWN.
+   Re-executing the sliced module in a bare namespace raised NameError: json -- the
+   logic used `json` and the slice only exported `re`. Repair: the slice now runs in
+   an explicit namespace and a missing import fails a NAMED check instead of a
+   traceback three screens later. This is the whole point of testing the bytes you
+   shipped instead of the bytes you remember writing.
+
+D3 THE FALSIFIER ASSERTED THE OPPOSITE OF THE TOOL'S CONTRACT.
+   A check named "declared fault 1 (citation counted as a fetch) is DETECTED" asserted
+   that a citation WAS flagged -- i.e. it demanded the false alarm the tool exists to
+   prevent. Repair: replaced with real mutation runs over a set of scenarios.
+
+D4 AND THEN IT CALLED TWO REAL FAULTS "ESCAPED".
+   The first mutation falsifier ran mutants against ONE hand-built scenario. Two
+   declared faults reported ESCAPED, and both were EQUIVALENT on that input -- the
+   mutations change behaviour on other inputs the scenario never exercised. That was a
+   finding about the FALSIFIER, not the mutations. Repair: mutants are judged on the
+   DELTA against the clean core across four named scenarios, BY NAME, never on a
+   total. (Run 003 of this loop lost two false BLINDs to exactly this.)
+
+D5 AN EXCLUSION WAS HIDING REAL PAGES.
+   The scan's exclusion list skipped "/site/" and "/edge_test/" -- silently dropping
+   the engineer's built blog (3 pages) and its edge fixtures from the census. Repair:
+   those exclusions removed. The census went 43 -> 49 pages, and those five are now
+   the five engineer move-test findings. An exclusion that hides a finding is not a
+   filter, it is a blindfold.
+
+D6 A SINGLE-PAGE CHECK OVERWROTE THE 49-PAGE CENSUS.
+   `--file <page>` fell through to the default output path and clobbered the standing
+   artifact with a one-page one. Repair: the tool now REFUSES to write the standing
+   census on a single-file check; it writes only where it is told. A check of one page
+   must never destroy the record of all of them.
+
+D7 THE SIGNATURE WAS TRUNCATED AT 400 CHARACTERS.
+   The page printed a prefix while the receipt carried the whole thing, so the "page
+   agrees with the record" invariant was unsatisfiable on any census bigger than the
+   cut. Repair: the full signature ships. A truncation that makes a claim uncheckable
+   is worse than no claim.
+
+D8 THE SIGNATURE'S SORT WAS NOT A TOTAL ORDER.
+   Sorting rows by page name alone left ties resolved by input order, so "stable under
+   reordering" was false whenever two rows shared a name. Found by the CONTROL mutant
+   in the unpinned adversary -- the control was flagged as a real fault, which is the
+   control doing its job. Repair: sort on (page, verdict, broken, moved), with a named
+   self-test case for the tie.
+
+D9 THE ARTIFACT'S OWN PAGE CONTAINED THE TOKEN "@import".
+   A page explaining that the at-rule is a subresource contains the literal string; a
+   naive scanner flags the checker's own page. Repair: the scanner now BUILDS the
+   token from two literals, the page writes it as an HTML entity, and a named
+   self-test asserts both directions -- a real at-rule is FETCHED, and the documented
+   token is NOT.
+
+D10 MY FIRST ATTEMPT AT THE PHONE FIX LOOKED LIKE IT FAILED.
+   The measurement said the media query was not applying; it was a bad measurement.
+   Chrome's headless WINDOW has a minimum width of about 500px, so --window-size=390
+   yields a ~500px layout viewport and never matches a max-width:620px rule. The fleet
+   already knew this -- overflow390.py documents it in its own docstring -- and I
+   walked straight into it. Repair: measured inside a real 390px iframe instead. The
+   media query had been working the whole time.
+
+D11 THE STACKED RECORDS STILL SHOWED A HEADER ROW.
+   After the phone fix, the three-column header survived at 390px because the header
+   cells sat in an implicit row rather than a <thead>. Repair: explicit
+   <thead>/<tbody> and the hide rule applied to thead. Confirmed by reading computed
+   styles inside a 390px iframe: table display 375px, thead none, each cell display
+   block, and the label pseudo-element returning "reference".
+
+==================================================================================
+WHAT IS STILL NOT PROVEN
+==================================================================================
+- A citation is not proof it was followed. This proves the cited URL did not load. It
+  does not check that the URL still resolves, or that the page still says what it
+  claims. A dead citation passes this tool.
+- Rendering is not layout. Horizontal overflow at 390px is checked; text wrapping,
+  contrast and tap-target size are not. The phone-width table fix was confirmed by
+  READING computed styles, not by a human eye on a real handset.
+- The cache is disabled per LAUNCH, not per page: two pages in one batch share a
+  browser, so a URL fetched by the first could be served from memory for the second.
+  Counts would not move, but a per-page launch would remove the doubt.
+- The blackout was proven against one loopback server and one external host on this
+  machine. A page reaching a network interface the resolver/proxy pair does not cover
+  has not been tried.
+- 0 of 49 pages were broken tonight. That is a real measurement over these roots and
+  this exclusion list, and it is not a claim about any page outside them.
+- The move test reports a DEPENDENCY, not a defect: a page in a site folder is
+  supposed to have siblings. It matters only for pages the charter requires to stand
+  alone.

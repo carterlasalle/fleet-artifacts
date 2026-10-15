@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pull the Plug — does every page still draw with the cable out?</title>
+<style>
+  :root{--bg:#0b0d10;--panel:#12151a;--edge:#1e242c;--ink:#e6edf3;--dim:#8b98a5;
+        --faint:#5b6673;--ok:#57d9a3;--bad:#ff6b6b;--warn:#f0b429;--line:#232a33}
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--bg);color:var(--ink);padding:22px 16px 70px;
+       font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  .wrap{max-width:940px;margin:0 auto}
+  .kick{color:var(--dim);font:600 11px/1 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+        letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
+  h1{font:600 26px/1.25 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+     letter-spacing:-.4px;margin:0 0 12px;border-left:4px solid var(--ok);padding-left:12px}
+  .meta{color:var(--faint);font:12px/1.6 ui-monospace,monospace;margin-bottom:20px}
+  .meta b{color:var(--dim)}
+  .panel{background:var(--panel);border:1px solid var(--edge);border-radius:10px;
+         padding:14px 15px;margin-bottom:14px}
+  h2{font:600 12px/1 ui-monospace,monospace;letter-spacing:2px;text-transform:uppercase;
+     color:var(--faint);margin:26px 0 10px;padding-bottom:7px;border-bottom:1px solid var(--line)}
+  .kv{display:flex;flex-wrap:wrap;gap:8px}
+  .kpi{flex:1 1 150px;background:var(--panel);border:1px solid var(--edge);border-radius:9px;padding:11px 12px}
+  .kpi .n{font:600 24px/1 ui-monospace,monospace;margin-bottom:5px}
+  .kpi .l{color:var(--dim);font:11px/1.3 ui-monospace,monospace;letter-spacing:1px;text-transform:uppercase}
+  .kpi.ok .n{color:var(--ok)} .kpi.bad .n{color:var(--bad)} .kpi.warn .n{color:var(--warn)}
+  .row{background:var(--panel);border:1px solid var(--edge);border-left:3px solid var(--edge);
+       border-radius:9px;padding:10px 12px;margin-bottom:7px}
+  .row.bad{border-left-color:var(--bad)} .row.mv{border-left-color:var(--warn)}
+  .row.ok{border-left-color:var(--ok)}
+  .p{font:600 13px/1.4 ui-monospace,monospace;word-break:break-all}
+  .tag{font:600 10px/1 ui-monospace,monospace;letter-spacing:1px;padding:3px 6px;border-radius:4px;
+       background:#1b2229;color:var(--dim);vertical-align:middle;margin-right:6px}
+  .row.bad .tag{color:var(--bad)} .row.mv .tag{color:var(--warn)} .row.ok .tag{color:var(--ok)}
+  .m{color:var(--faint);font:11px/1.5 ui-monospace,monospace;margin-top:5px}
+  .u{color:var(--bad);font:11px/1.5 ui-monospace,monospace;margin-top:4px;word-break:break-all}
+  .u.dim{color:var(--faint)}
+  ol,ul{margin:8px 0 0;padding-left:20px;color:var(--dim);font-size:14px}
+  li{margin-bottom:6px}
+  code{background:#171d24;padding:1px 5px;border-radius:4px;
+       font:12px ui-monospace,monospace;color:var(--ink);word-break:break-all}
+  .lim{border-left:3px solid var(--warn)}
+  table{border-collapse:collapse;width:100%;margin-top:6px}
+  td,th{border-bottom:1px solid var(--line);padding:6px 4px;text-align:left;
+        font:12px/1.4 ui-monospace,monospace;color:var(--dim);vertical-align:top}
+  th{color:var(--faint);font-weight:600;text-transform:uppercase;letter-spacing:1px;font-size:10px}
+  /* the phone rule: below 620px a 3-column table turns into three stacked
+     records. Measured defect it fixes: at 390px the middle header wrapped onto
+     four lines and the body cells broke mid-token, which is the densest and
+     least scannable thing on the page -- on the one width that matters here. */
+  @media (max-width:620px){
+    table.cmp thead{display:none}
+    table.cmp tr{display:block;border-bottom:1px solid var(--line);padding:8px 0}
+    table.cmp tbody,table.cmp td{display:block}
+    table.cmp td{border:0;padding:2px 0}
+    table.cmp td:first-child{color:var(--ink)}
+    table.cmp td:before{content:attr(data-label);display:block;color:var(--faint);
+      font:600 9px/1.4 ui-monospace,monospace;letter-spacing:1.5px;
+      text-transform:uppercase;margin-bottom:2px}
+  }
+  footer{margin-top:34px;padding-top:14px;border-top:1px solid var(--line);
+         color:var(--faint);font:11px/1.7 ui-monospace,monospace}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="kick">Software room &middot; offline render proof</div>
+  <h1>49 of 49 pages draw with the network genuinely unreachable; none do not. 6 page(s) also fail the move test.</h1>
+  <div class="meta">
+    measured 2026-10-09T13:22:24Z &middot; browser <b>/usr/bin/google-chrome</b> &middot;
+    blackout <b>--host-resolver-rules="MAP * ~NOTFOUND" --proxy-server=127.0.0.1:1</b><br>
+    viewport <b>390&times;844</b> (an iframe's own layout viewport) &middot;
+    pages <b>49</b> &middot; exclusions printed at the foot of this page
+  </div>
+
+  <div class="kv">
+    <div class="kpi ok"><div class="n">49</div><div class="l">draw with the cable out</div></div>
+    <div class="kpi ok"><div class="n">0</div><div class="l">do not</div></div>
+    <div class="kpi warn"><div class="n">6</div><div class="l">fail the move test</div></div>
+    <div class="kpi"><div class="n">43</div><div class="l">citation links, not offenders</div></div>
+  </div>
+
+  <h2>The method, and the mistake it exists to avoid</h2>
+  <div class="panel">
+    <p style="margin:0 0 8px;color:var(--dim);font-size:14px">
+      Both of these are <code>https://&hellip;</code> in the source, and a regex cannot tell
+      them apart:</p>
+    <table class="cmp">
+      <thead><tr><th>reference</th><th>does the browser fetch it to DRAW the page?</th>
+        <th>counts as an offender?</th></tr></thead>
+      <tbody>
+      <tr>
+        <td data-label="reference">&lt;img src&gt;, &lt;script src&gt;,
+            &lt;link rel=stylesheet&gt;, CSS <code>&#64;import</code>,
+            style <code>url()</code></td>
+        <td data-label="fetched to draw?">yes &mdash; a fail here breaks the page</td>
+        <td data-label="offender?">YES</td></tr>
+      <tr>
+        <td data-label="reference">&lt;a href&gt; to a source URL</td>
+        <td data-label="fetched to draw?">no &mdash; only if the reader clicks</td>
+        <td data-label="offender?">NO</td></tr>
+      </tbody>
+    </table>
+    <p style="margin:9px 0 0;color:var(--dim);font-size:14px">
+      This tool stops reading the source for the verdict. It launches Chrome with every
+      hostname unresolvable and no proxy, loads the page, and reads back what the browser
+      actually tried to fetch and what came back empty (<code>responseStatus:0</code>,
+      <code>transferSize:0</code>). A page is broken only when a subresource the page
+      needed <em>succeeded with the network up and was denied with it down</em>.</p>
+  </div>
+
+  <h2>Every page, worst first</h2>
+  <div class="row mv"><div class="p"><span class="tag">CLEAN</span> /home/hermes/.local/share/StarNet/workspaces/agent/novelty-agenda-20261008/fleet-agenda.html</div><div class="m">0 citation link(s) &middot; 0 remote subresource(s) &middot; 1 sibling ref(s) &middot; 18303 bytes</div><div class="u dim">sibling file, move test: &lt;style @import="and"&gt;</div></div>
+<div class="row mv"><div class="p"><span class="tag">CLEAN</span> /home/hermes/.local/share/StarNet/workspaces/engineer/blog/site/index.html</div><div class="m">0 citation link(s) &middot; 0 remote subresource(s) &middot; 1 sibling ref(s) &middot; 3310 bytes</div><div class="u dim">sibling file, move test: &lt;link href="/favicon.ico"&gt;</div></div>
+<div class="row mv"><div class="p"><span class="tag">CLEAN</span> /home/hermes/.local/share/StarNet/workspaces/engineer/blog/site/project-notes.html</div><div class="m">0 citation link(s) &middot; 0 remote subresource(s) &middot; 1 sibling ref(s) &middot; 4349 bytes</div><div class="u dim">sibling file, move test: &lt;link href="/favicon.ico"&gt;</div></div>
+<div class="row mv"><div class="p"><span class="tag">CLEAN</span> /home/hermes/.local/share/StarNet/workspaces/engineer/blog/site/second-test.html</div><div class="m">0 citation link(s) &middot; 0 remote subresource(s) &middot; 1 sibling ref(s) &middot; 3975 bytes</div><div class="u dim">sibling file, move test: &lt;link href="/favicon.ico"&gt;</div></div>
+<div class="row mv"><div class="p"><span class="tag">CLEAN</span> /home/hermes/.local/share/StarNet/workspaces/engineer/edge_selfcontained.html</div><div class="m">0 citation link(s) &middot; 0 remote subresource(s) &middot; 2 sibling ref(s) &middot; 305 bytes</div><div class="u dim">sibling file, move test: &lt;link href="style.css"&gt;</div><div class="u dim">sibling file, move test: &lt;script src="app.js"&gt;</div></div>
+<div class="row mv"><div class="p"><span class="tag">CLEAN</span> /home/hermes/.local/share/StarNet/workspaces/engineer/edge_test/edge_selfcontained.html</div><div class="m">0 citation link(s) &middot; 0 remote subresource(s) &middot; 2 sibling ref(s) &middot; 305 bytes</div><div class="u dim">sibling file, move test: &lt;link href="style.css"&gt;</div><div class="u dim">sibling file, move test: &lt;script src="app.js"&gt;</div></div>
+<div class="row ok"><div class="p"><span class="tag">CLEAN</span> /home/hermes/.local/share/StarNet/workspaces/agent/design-review-of-agenda-portfolio.html</div><div class="m">0 citation link(s) &middot; 0 remote subresource(s) &middot; 0 sibling ref(s) &middot; 6060 bytes</div></div>
+<div class="row ok"><div class="p"><span class="tag">CLEAN</span> /home/hermes/.local/share/StarNet/workspaces/agent/engineering-tester-loop-check.html</div><div class="m">0 citation link(s) &middot; 0 remote subresource(s) &middot; 0 sibling ref(s) &middot; 13093 bytes</div></div>
+<div class="row ok"><div class="p"><span class="tag">CLEAN</span> /home/hermes/.local/share/StarNet/workspaces/agent/fleet-artifacts-digest.html</div><div class="m">0 citation link(s) &middot; 0 remote subresource(s) &middot; 0 sibling ref(s) &middot; 20875 bytes</div></div>
+<div class="row ok"><div class="p"><span class="tag">CLEAN</span> /home/hermes/.local/share/StarNet/workspaces/agent/fleet-bus-freeze-2026-10-08/frozen-bus-2026-10-08.html</div><div class="m">0 citation link(s) &middot; 0 remote subresource(s) &middot; 0 sibling ref(s) &middot; 11560 bytes</div></div>
+<div class="row ok"><div class="p"><span class="tag">CLEAN</span> /home/hermes/.local/share/StarNet/workspaces/agent/fleet-bus-freeze-2026-10-08/snapshot-20261008/bus/design/dropbox/fleet-agenda__design__20261008T231318Z__a170.files/agenda-portfolio.html</div><div class="m">0 citation link(s) &middot; 0 remote subresource(s) &middot; 0 sibling ref(s) &middot; 9968 bytes</div></div>
+<div class="row ok"><div class="p"><span class="tag">CLEAN</span> /home/hermes/.local/share/StarNet/workspaces/agent/fleet-bus-freeze-2026-10-08/snapshot-20261009/bus/design/dropbox/fleet-agenda__design__20261008T231318Z__a170.files/agenda-portfolio.html</div><div class="m">0 citation link(s) &middot; 0 remote subresource(s) &middot; 0 sibling ref(s) &middot; 9968 bytes</div></div>
+<div class="row ok"><div class="p"><span class="tag">CLEAN</span> /home/hermes/.local/share/StarNet/workspaces/agent/fleet-defect-report-2026-10-08.html</div><div class="m">0 citation link(s) &middot; 0 remote subresource(s) &middot; 0 sibling ref(s) &middot; 15526 bytes</div></div>
+<div class="row ok"><div class="p"><span class="tag">CLEAN</span> /home/hermes/.local/share/StarNet/workspaces/agent/fleet-diagnostics-engineering-tester-loop.html</div><div class="m">0 citation link(s) &middot; 0 remote subresource(s) &middot; 0 sibling ref(s) &middot; 15913 bytes</div></div>
+<div class="row ok"><div class="p"><span class="tag">CLEAN</span> /home/hermes/.local/share/StarNet/workspaces/agent/fleet-expansion-20261008.html</div><div class="m">0 citation link(s) &middot; 0 remote subresource(s) &middot; 0 sibling ref(s) &middot; 8122 bytes</div></div>
+<div class="row ok"><div class="p"><span class="tag">CLEAN</span> /home/hermes/.local/share/StarNet/workspaces/agent/fleet-index.html</div><div class="m">0 citation link(s) &middot; 0 remote subresource(s) &middot; 0 sibling ref(s) &middot; 41939 bytes</div></div>
+<div class="row ok"><div class="p"><span class="tag">CLEAN</span> /home/hermes/.local/share/StarNet/workspaces/agent/fleet-status-2026-10-08.html</div><div class="m">0 citation link(s) &middot; 0 remote subresource(s) &middot; 0 sibling ref(s) &middot; 13242 bytes</div></div>
+<div class="row ok"><div class="p"><span class="tag">CLEAN</span> /home/hermes/.local/share/StarNet/workspaces/agent/fleet/handovers/handover-2026-10-09.html</div><div class="m">0 citation link(s) &middot; 0 remote subresource(s) &middot; 0 sibling ref(s) &middot; 7831 bytes</div></div>
+<div class="row ok"><div class="p"><span class="tag">CLEAN</span> /home/hermes/.local/share/StarNet/workspaces/agent/frozen-fleet-bus-2026-10-08.html</div><div class="m">0 citation link(s) &middot; 0 remote subresource(s) &middot; 0 sibling ref(s) &middot; 11560 bytes</div></div>
+<div class="row ok"><div class="p"><span class="tag">CLEAN</span> /home/hermes/.local/share/StarNet/workspaces/analyst/fleet-measurement-20261008.html</div><div class="m">0 citation link(s) &middot; 0 remote subresource(s) &middot; 0 sibling ref(s) &middot; 14274 bytes</div></div>
+<div class="row ok"><div class="p"><span class="tag">CLEAN</span> /home/hermes/.local/share/StarNet/workspaces/apps/fleet-foundation-audit/index.html</div><div class="m">0 citation link(s) &middot; 0 remote subresource(s) &middot; 0 sibling ref(s) &middot; 11301 bytes</div></div>
+<div class="row ok"><div class="p"><span class="tag">CLEAN</span> /home/hermes/.local/share/StarNet/workspaces/apps/fleet-integrity-ledger/index.html</div><div class="m">0 citation link(s) &middot; 0 remote subresource(s) &middot; 0 sibling ref(s) &middot; 16684 bytes</div></div>
+<div class="row ok"><div class="p"><span class="tag">CLEAN</span> /home/hermes/.local/share/StarNet/workspaces/apps/fleet-integrity-room-notes/index.html</div><div class="m">0 citation link(s) &middot; 0 remote subresource(s) &middot; 0 sibling ref(s) &middot; 7178 bytes</div></div>
+<div class="row ok"><div class="p"><span class="tag">CLEAN</span> /home/hermes/.local/share/StarNet/workspaces/apps/fleet-status-last-12-hours/index.html</div><div class="m">0 citation link(s) &middot; 0 remote subresource(s) &middot; 0 sibling ref(s) &middot; 4942 bytes</div></div>
+<div class="row ok"><div class="p"><span class="tag">CLEAN</span> /home/hermes/.local/share/StarNet/workspaces/chief/chief-desk/brief-2026-10-09.html</div><div class="m">0 citation link(s) &middot; 0 remote subresource(s) &middot; 0 sibling ref(s) &middot; 11142 bytes</div></div>
+<div class="row ok"><div class="p"><span class="tag">CLEAN</span> /home/hermes/.local/share/StarNet/workspaces/engineer/artifacts/software-room-handoff.html</div><div class="m">0 citation link(s) &middot; 0 remote subresource(s) &middot; 0 sibling ref(s) &middot; 8484 bytes</div></div>
+<div class="row ok"><div class="p"><span class="tag">CLEAN</span> /home/hermes/.local/share/StarNet/workspaces/engineer/diag_check.html</div><div class="m">0 citation link(s) &middot; 0 remote subresource(s) &middot; 0 sibling ref(s) &middot; 15737 bytes</div></div>
+<div class="row ok"><div class="p"><span class="tag">CLEAN</span> /home/hermes/.local/share/StarNet/workspaces/engineer/fleet-blocked-why.html</div><div class="m">0 citation link(s) &middot; 0 remote subresource(s) &middot; 0 sibling ref(s) &middot; 9146 bytes</div></div>
+<div class="row ok"><div class="p"><span class="tag">CLEAN</span> /home/hermes/.local/share/StarNet/workspaces/engineer/test.html</div><div class="m">1 citation link(s) &middot; 0 remote subresource(s) &middot; 0 sibling ref(s) &middot; 3647 bytes</div></div>
+<div class="row ok"><div class="p"><span class="tag">CLEAN</span> /home/hermes/.local/share/StarNet/workspaces/engineer/test_empty.html</div><div class="m">0 citation link(s) &middot; 0 remote subresource(s) &middot; 0 sibling ref(s) &middot; 2784 bytes</div></div>
+<div class="row ok"><div class="p"><span class="tag">CLEAN</span> /home/hermes/.local/share/StarNet/workspaces/researcher/fleet/research/brief-2026-10-08.html</div><div class="m">16 citation link(s) &middot; 0 remote subresource(s) &middot; 0 sibling ref(s) &middot; 9007 bytes</div></div>
+<div class="row ok"><div class="p"><span class="tag">CLEAN</span> /home/hermes/.local/share/StarNet/workspaces/researcher/research_brief_2026-10-07.html</div><div class="m">3 citation link(s) &middot; 0 remote subresource(s) &middot; 0 sibling ref(s) &middot; 4489 bytes</div></div>
+<div class="row ok"><div class="p"><span class="tag">CLEAN</span> /home/hermes/.local/share/StarNet/workspaces/reviewer/empty.html</div><div class="m">0 citation link(s) &middot; 0 remote subresource(s) &middot; 0 sibling ref(s) &middot; 2779 bytes</div></div>
+<div class="row ok"><div class="p"><span class="tag">CLEAN</span> /home/hermes/.local/share/StarNet/workspaces/reviewer/independent-verification.html</div><div class="m">0 citation link(s) &middot; 0 remote subresource(s) &middot; 0 sibling ref(s) &middot; 3598 bytes</div></div>
+<div class="row ok"><div class="p"><span class="tag">CLEAN</span> /home/hermes/.local/share/StarNet/workspaces/scout/fleet/watch/watch-2026-10-08-16.html</div><div class="m">0 citation link(s) &middot; 0 remote subresource(s) &middot; 0 sibling ref(s) &middot; 3561 bytes</div></div>
+<div class="row ok"><div class="p"><span class="tag">CLEAN</span> /home/hermes/.local/share/StarNet/workspaces/scout/fleet/watch/watch-2026-10-08-18.html</div><div class="m">0 citation link(s) &middot; 0 remote subresource(s) &middot; 0 sibling ref(s) &middot; 4962 bytes</div></div>
+<div class="row ok"><div class="p"><span class="tag">CLEAN</span> /home/hermes/.local/share/StarNet/workspaces/scout/fleet/watch/watch-2026-10-09-09.html</div><div class="m">0 citation link(s) &middot; 0 remote subresource(s) &middot; 0 sibling ref(s) &middot; 6979 bytes</div></div>
+<div class="row ok"><div class="p"><span class="tag">CLEAN</span> /home/hermes/.local/share/StarNet/workspaces/strategist/fleet/2026-10-07-idea-board.html</div><div class="m">9 citation link(s) &middot; 0 remote subresource(s) &middot; 0 sibling ref(s) &middot; 19559 bytes</div></div>
+<div class="row ok"><div class="p"><span class="tag">CLEAN</span> /home/hermes/.local/share/StarNet/workspaces/strategist/fleet/directives/idea-board-2026-10-08.html</div><div class="m">14 citation link(s) &middot; 0 remote subresource(s) &middot; 0 sibling ref(s) &middot; 13852 bytes</div></div>
+<div class="row ok"><div class="p"><span class="tag">CLEAN</span> /home/hermes/.local/share/StarNet/workspaces/webdesigner/fleet-manifest.html</div><div class="m">0 citation link(s) &middot; 0 remote subresource(s) &middot; 0 sibling ref(s) &middot; 4079 bytes</div></div>
+<div class="row ok"><div class="p"><span class="tag">CLEAN</span> /home/hermes/fleet/design/dropbox/fleet-agenda__design__20261008T231318Z__a170.files/agenda-portfolio.html</div><div class="m">0 citation link(s) &middot; 0 remote subresource(s) &middot; 0 sibling ref(s) &middot; 9968 bytes</div></div>
+<div class="row ok"><div class="p"><span class="tag">CLEAN</span> /home/hermes/fleet/fleet-agenda/dropbox/software__fleet-agenda__20261009T130727Z__9a9b.files/dark-render-2026-10-09.html</div><div class="m">0 citation link(s) &middot; 0 remote subresource(s) &middot; 0 sibling ref(s) &middot; 30570 bytes</div></div>
+<div class="row ok"><div class="p"><span class="tag">CLEAN</span> /home/hermes/fleet/rooms/design/workspace/artifacts/design-review-of-agenda-portfolio.html</div><div class="m">0 citation link(s) &middot; 0 remote subresource(s) &middot; 0 sibling ref(s) &middot; 6060 bytes</div></div>
+<div class="row ok"><div class="p"><span class="tag">CLEAN</span> /home/hermes/fleet/rooms/design/workspace/artifacts/fleet-artifacts-digest.html</div><div class="m">0 citation link(s) &middot; 0 remote subresource(s) &middot; 0 sibling ref(s) &middot; 20875 bytes</div></div>
+<div class="row ok"><div class="p"><span class="tag">CLEAN</span> /home/hermes/fleet/rooms/design/workspace/artifacts/fleet-handoff-contract.html</div><div class="m">0 citation link(s) &middot; 0 remote subresource(s) &middot; 0 sibling ref(s) &middot; 4159 bytes</div></div>
+<div class="row ok"><div class="p"><span class="tag">CLEAN</span> /home/hermes/fleet/rooms/design/workspace/inbox/fleet-agenda__design__20261008T231318Z__a170/agenda-portfolio.html</div><div class="m">0 citation link(s) &middot; 0 remote subresource(s) &middot; 0 sibling ref(s) &middot; 9968 bytes</div></div>
+<div class="row ok"><div class="p"><span class="tag">CLEAN</span> /home/hermes/fleet/rooms/fleet-agenda/workspace/artifacts/agenda-portfolio.html</div><div class="m">0 citation link(s) &middot; 0 remote subresource(s) &middot; 0 sibling ref(s) &middot; 9968 bytes</div></div>
+<div class="row ok"><div class="p"><span class="tag">CLEAN</span> /home/hermes/fleet/rooms/software/workspace/artifacts/dark-render-2026-10-09.html</div><div class="m">0 citation link(s) &middot; 0 remote subresource(s) &middot; 0 sibling ref(s) &middot; 32205 bytes</div></div>
+<div class="row ok"><div class="p"><span class="tag">CLEAN</span> /home/hermes/fleet/rooms/wake-card.html</div><div class="m">0 citation link(s) &middot; 0 remote subresource(s) &middot; 0 sibling ref(s) &middot; 26941 bytes</div></div>
+
+  <h2>What would falsify this</h2>
+  <div class="panel">
+    <ul>
+      <li>A control page carrying one remote <code>&lt;script src&gt;</code> must be found
+          BROKEN &mdash; and it is, in the self-test, on every run.</li>
+      <li>A page with no remote anything must be found CLEAN &mdash; and it is; that is the
+          negative control, and without it "found nothing" would be indistinguishable from
+          "looked at nothing".</li>
+      <li>The light/dark pair must disagree on the network itself. If both runs report the
+          asset loaded, the blackout failed and this page is worthless.</li>
+      <li>The logic self-test is sliced out of <em>this build</em> between its own marker
+          comments, so the code under test and the test are the same bytes. The slice is
+          then re-executed in a namespace holding nothing but <code>re</code> and
+          <code>json</code> &mdash; on the first run it failed there with a
+          <code>NameError</code>, which is the whole point of testing the bytes you ship
+          rather than the ones you remember writing.</li>
+    </ul>
+  </div>
+
+  <h2>Honest limits</h2>
+  <div class="panel lim">
+    <ul>
+      <li><b>A citation is not proof it was followed.</b> This page proves the cited URL did
+          not load. It does not check the URL still resolves, or still says what the page
+          claims. A dead citation passes this tool.</li>
+      <li><b>Rendering is not layout.</b> Off-screen overflow and the 390px rule are a
+          different measurement (see <code>overflow390.py</code>). This page fires no pixels
+          judgment.</li>
+      <li><b>Excluded deliberately:</b> /workshop/, /.selftest/, /node_modules/, /build/, /.output/, /downloads/, /shots/, /plug-proof/, /.browser-profile/, /test_fixtures/.
+          Loop fixtures, browser-profile internals and build checkpoints are not shipped
+          pages; leaving them out is a decision, not an accident.</li>
+      <li><b>The cache is disabled per launch, not per page.</b> Two pages in one batch share
+          a browser, so a URL fetched by the first page could in principle be served from
+          memory for the second. The counts would not change; a per-page launch would.</li>
+      <li><b>0 of 49 is the finding tonight.</b> A clean sweep is a real
+          result here and not a soft one &mdash; but it only covers the pages in the roots
+          listed below.</li>
+    </ul>
+  </div>
+
+  <h2>How to re-run it</h2>
+  <div class="panel">
+    <p style="margin:0 0 6px;color:var(--dim);font-size:14px">The exact command that produced this page:</p>
+    <p style="margin:0"><code>python3 plug_check.py --scan</code></p>
+    <p style="margin:8px 0 0;color:var(--dim);font-size:14px">The self-test, on these bytes:</p>
+    <p style="margin:0"><code>python3 plug_check.py --selftest</code></p>
+    <p style="margin:8px 0 0;color:var(--dim);font-size:14px">Roots scanned:</p>
+    <p style="margin:0">/home/hermes/fleet<br>/home/hermes/.local/share/StarNet/workspaces</p>
+  </div>
+
+  <footer>
+    verdict signature (a re-run must reproduce this byte-for-byte; only timers may move):<br>
+    <code>[{"broken": [], "moved": false, "page": "/home/hermes/.local/share/StarNet/workspaces/agent/design-review-of-agenda-portfolio.html", "verdict": "CLEAN"}, {"broken": [], "moved": false, "page": "/home/hermes/.local/share/StarNet/workspaces/agent/engineering-tester-loop-check.html", "verdict": "CLEAN"}, {"broken": [], "moved": false, "page": "/home/hermes/.local/share/StarNet/workspaces/agent/fleet-artifacts-digest.html", "verdict": "CLEAN"}, {"broken": [], "moved": false, "page": "/home/hermes/.local/share/StarNet/workspaces/agent/fleet-bus-freeze-2026-10-08/frozen-bus-2026-10-08.html", "verdict": "CLEAN"}, {"broken": [], "moved": false, "page": "/home/hermes/.local/share/StarNet/workspaces/agent/fleet-bus-freeze-2026-10-08/snapshot-20261008/bus/design/dropbox/fleet-agenda__design__20261008T231318Z__a170.files/agenda-portfolio.html", "verdict": "CLEAN"}, {"broken": [], "moved": false, "page": "/home/hermes/.local/share/StarNet/workspaces/agent/fleet-bus-freeze-2026-10-08/snapshot-20261009/bus/design/dropbox/fleet-agenda__design__20261008T231318Z__a170.files/agenda-portfolio.html", "verdict": "CLEAN"}, {"broken": [], "moved": false, "page": "/home/hermes/.local/share/StarNet/workspaces/agent/fleet-defect-report-2026-10-08.html", "verdict": "CLEAN"}, {"broken": [], "moved": false, "page": "/home/hermes/.local/share/StarNet/workspaces/agent/fleet-diagnostics-engineering-tester-loop.html", "verdict": "CLEAN"}, {"broken": [], "moved": false, "page": "/home/hermes/.local/share/StarNet/workspaces/agent/fleet-expansion-20261008.html", "verdict": "CLEAN"}, {"broken": [], "moved": false, "page": "/home/hermes/.local/share/StarNet/workspaces/agent/fleet-index.html", "verdict": "CLEAN"}, {"broken": [], "moved": false, "page": "/home/hermes/.local/share/StarNet/workspaces/agent/fleet-status-2026-10-08.html", "verdict": "CLEAN"}, {"broken": [], "moved": false, "page": "/home/hermes/.local/share/StarNet/workspaces/agent/fleet/handovers/handover-2026-10-09.html", "verdict": "CLEAN"}, {"broken": [], "moved": false, "page": "/home/hermes/.local/share/StarNet/workspaces/agent/frozen-fleet-bus-2026-10-08.html", "verdict": "CLEAN"}, {"broken": [], "moved": true, "page": "/home/hermes/.local/share/StarNet/workspaces/agent/novelty-agenda-20261008/fleet-agenda.html", "verdict": "CLEAN"}, {"broken": [], "moved": false, "page": "/home/hermes/.local/share/StarNet/workspaces/analyst/fleet-measurement-20261008.html", "verdict": "CLEAN"}, {"broken": [], "moved": false, "page": "/home/hermes/.local/share/StarNet/workspaces/apps/fleet-foundation-audit/index.html", "verdict": "CLEAN"}, {"broken": [], "moved": false, "page": "/home/hermes/.local/share/StarNet/workspaces/apps/fleet-integrity-ledger/index.html", "verdict": "CLEAN"}, {"broken": [], "moved": false, "page": "/home/hermes/.local/share/StarNet/workspaces/apps/fleet-integrity-room-notes/index.html", "verdict": "CLEAN"}, {"broken": [], "moved": false, "page": "/home/hermes/.local/share/StarNet/workspaces/apps/fleet-status-last-12-hours/index.html", "verdict": "CLEAN"}, {"broken": [], "moved": false, "page": "/home/hermes/.local/share/StarNet/workspaces/chief/chief-desk/brief-2026-10-09.html", "verdict": "CLEAN"}, {"broken": [], "moved": false, "page": "/home/hermes/.local/share/StarNet/workspaces/engineer/artifacts/software-room-handoff.html", "verdict": "CLEAN"}, {"broken": [], "moved": true, "page": "/home/hermes/.local/share/StarNet/workspaces/engineer/blog/site/index.html", "verdict": "CLEAN"}, {"broken": [], "moved": true, "page": "/home/hermes/.local/share/StarNet/workspaces/engineer/blog/site/project-notes.html", "verdict": "CLEAN"}, {"broken": [], "moved": true, "page": "/home/hermes/.local/share/StarNet/workspaces/engineer/blog/site/second-test.html", "verdict": "CLEAN"}, {"broken": [], "moved": false, "page": "/home/hermes/.local/share/StarNet/workspaces/engineer/diag_check.html", "verdict": "CLEAN"}, {"broken": [], "moved": true, "page": "/home/hermes/.local/share/StarNet/workspaces/engineer/edge_selfcontained.html", "verdict": "CLEAN"}, {"broken": [], "moved": true, "page": "/home/hermes/.local/share/StarNet/workspaces/engineer/edge_test/edge_selfcontained.html", "verdict": "CLEAN"}, {"broken": [], "moved": false, "page": "/home/hermes/.local/share/StarNet/workspaces/engineer/fleet-blocked-why.html", "verdict": "CLEAN"}, {"broken": [], "moved": false, "page": "/home/hermes/.local/share/StarNet/workspaces/engineer/test.html", "verdict": "CLEAN"}, {"broken": [], "moved": false, "page": "/home/hermes/.local/share/StarNet/workspaces/engineer/test_empty.html", "verdict": "CLEAN"}, {"broken": [], "moved": false, "page": "/home/hermes/.local/share/StarNet/workspaces/researcher/fleet/research/brief-2026-10-08.html", "verdict": "CLEAN"}, {"broken": [], "moved": false, "page": "/home/hermes/.local/share/StarNet/workspaces/researcher/research_brief_2026-10-07.html", "verdict": "CLEAN"}, {"broken": [], "moved": false, "page": "/home/hermes/.local/share/StarNet/workspaces/reviewer/empty.html", "verdict": "CLEAN"}, {"broken": [], "moved": false, "page": "/home/hermes/.local/share/StarNet/workspaces/reviewer/independent-verification.html", "verdict": "CLEAN"}, {"broken": [], "moved": false, "page": "/home/hermes/.local/share/StarNet/workspaces/scout/fleet/watch/watch-2026-10-08-16.html", "verdict": "CLEAN"}, {"broken": [], "moved": false, "page": "/home/hermes/.local/share/StarNet/workspaces/scout/fleet/watch/watch-2026-10-08-18.html", "verdict": "CLEAN"}, {"broken": [], "moved": false, "page": "/home/hermes/.local/share/StarNet/workspaces/scout/fleet/watch/watch-2026-10-09-09.html", "verdict": "CLEAN"}, {"broken": [], "moved": false, "page": "/home/hermes/.local/share/StarNet/workspaces/strategist/fleet/2026-10-07-idea-board.html", "verdict": "CLEAN"}, {"broken": [], "moved": false, "page": "/home/hermes/.local/share/StarNet/workspaces/strategist/fleet/directives/idea-board-2026-10-08.html", "verdict": "CLEAN"}, {"broken": [], "moved": false, "page": "/home/hermes/.local/share/StarNet/workspaces/webdesigner/fleet-manifest.html", "verdict": "CLEAN"}, {"broken": [], "moved": false, "page": "/home/hermes/fleet/design/dropbox/fleet-agenda__design__20261008T231318Z__a170.files/agenda-portfolio.html", "verdict": "CLEAN"}, {"broken": [], "moved": false, "page": "/home/hermes/fleet/fleet-agenda/dropbox/software__fleet-agenda__20261009T130727Z__9a9b.files/dark-render-2026-10-09.html", "verdict": "CLEAN"}, {"broken": [], "moved": false, "page": "/home/hermes/fleet/rooms/design/workspace/artifacts/design-review-of-agenda-portfolio.html", "verdict": "CLEAN"}, {"broken": [], "moved": false, "page": "/home/hermes/fleet/rooms/design/workspace/artifacts/fleet-artifacts-digest.html", "verdict": "CLEAN"}, {"broken": [], "moved": false, "page": "/home/hermes/fleet/rooms/design/workspace/artifacts/fleet-handoff-contract.html", "verdict": "CLEAN"}, {"broken": [], "moved": false, "page": "/home/hermes/fleet/rooms/design/workspace/inbox/fleet-agenda__design__20261008T231318Z__a170/agenda-portfolio.html", "verdict": "CLEAN"}, {"broken": [], "moved": false, "page": "/home/hermes/fleet/rooms/fleet-agenda/workspace/artifacts/agenda-portfolio.html", "verdict": "CLEAN"}, {"broken": [], "moved": false, "page": "/home/hermes/fleet/rooms/software/workspace/artifacts/dark-render-2026-10-09.html", "verdict": "CLEAN"}, {"broken": [], "moved": false, "page": "/home/hermes/fleet/rooms/wake-card.html", "verdict": "CLEAN"}]</code><br><br>
+    Pull the Plug &middot; built in the software room &middot; everything here is local:
+    nothing was sent, published, spent or moved off this machine.
+  </footer>
+</div>
+</body>
+</html>

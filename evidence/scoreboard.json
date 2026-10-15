@@ -1,0 +1,159 @@
+{
+  "bar": 0.55,
+  "weights": {
+    "verifiability": 0.3,
+    "novelty": 0.25,
+    "impact": 0.2,
+    "feasibility": 0.15,
+    "risk": 0.1
+  },
+  "corpus_size": 24,
+  "rows": [
+    {
+      "id": "c1-pull-the-plug",
+      "file": "c1.md",
+      "title": "C1 \u2014 Pull the Plug",
+      "vehicle": "script+page",
+      "lens": "inversion",
+      "done_check": "command_zero",
+      "verifiability": 1.0,
+      "novelty": 0.6769,
+      "max_prior_similarity": 0.3231,
+      "impact_declared": 0.9,
+      "feasibility_declared": 0.85,
+      "risk_declared": 0.35,
+      "clamped": false,
+      "score": 0.8417,
+      "signals": {
+        "id": "c1-pull-the-plug",
+        "lens": "inversion",
+        "vehicle": "script+page",
+        "steps": [
+          "blackout harness proven on a control page before any fleet page is loaded",
+          "plug_check.py walks the page set and records per-URL render outcome",
+          "dark-render-<date>.html renders verdict-first, offline, clean at 390px",
+          "selftest slices its own logic out of the shipped page and re-runs it"
+        ],
+        "deps": [
+          "google-chrome",
+          "python3"
+        ],
+        "unblocks": [
+          "offline-proof",
+          "render-390"
+        ],
+        "risk_factors": [
+          "a citation href could be counted as an offender, which is the exact false alarm that kills trust in the number",
+          "classifying by source text rather than render outcome re-introduces the regex mistake"
+        ],
+        "done_check": {
+          "kind": "command_zero",
+          "cmd": "python3 plug_check.py --selftest"
+        },
+        "declared": {
+          "impact": 0.9,
+          "feasibility": 0.85,
+          "risk": 0.35
+        }
+      }
+    },
+    {
+      "id": "c2-one-rung-no-browser",
+      "file": "c2.md",
+      "title": "C2 \u2014 One Rung, No Browser",
+      "vehicle": "tool",
+      "lens": "constrain",
+      "done_check": "file_exists",
+      "verifiability": 0.7,
+      "novelty": 0.7793,
+      "max_prior_similarity": 0.2207,
+      "impact_declared": 0.45,
+      "feasibility_declared": 0.95,
+      "risk_declared": 0.2,
+      "clamped": false,
+      "score": 0.7173,
+      "signals": {
+        "id": "c2-one-rung-no-browser",
+        "lens": "constrain",
+        "vehicle": "tool",
+        "steps": [
+          "fix the budget in the docstring",
+          "partition references by attribute",
+          "print a header that disclaims the render claim"
+        ],
+        "deps": [
+          "python3"
+        ],
+        "unblocks": [
+          "offline-proof"
+        ],
+        "risk_factors": [
+          "it re-implements the same regex that produced the false alarm in the first place",
+          "a triage list is cheaper than a verdict, so the rubric may prefer it for the wrong reason"
+        ],
+        "done_check": {
+          "kind": "file_exists",
+          "path": "ref_triage.py"
+        },
+        "declared": {
+          "impact": 0.45,
+          "feasibility": 0.95,
+          "risk": 0.2
+        }
+      }
+    },
+    {
+      "id": "c3-the-page-that-admits-itself",
+      "file": "c3.md",
+      "title": "C3 \u2014 The Page That Admits Itself",
+      "vehicle": "document",
+      "lens": "provoke",
+      "done_check": "manual",
+      "verifiability": 0.2,
+      "novelty": 0.7197,
+      "max_prior_similarity": 0.2803,
+      "impact_declared": 0.5,
+      "feasibility_declared": 0.7,
+      "risk_declared": 0.5,
+      "clamped": false,
+      "score": 0.4949,
+      "signals": {
+        "id": "c3-the-page-that-admits-itself",
+        "lens": "provoke",
+        "vehicle": "document",
+        "steps": [
+          "extract limits sections from shipped pages",
+          "rank oldest first",
+          "check whether a later artifact in the room closed it"
+        ],
+        "deps": [
+          "python3"
+        ],
+        "unblocks": [
+          "question-frontier"
+        ],
+        "risk_factors": [
+          "the earlier probe measured only 4 real artifacts with an honest-limits heading, so the corpus may be too thin to fill a page",
+          "an extractor that scrapes caveat words ships a page of noise"
+        ],
+        "done_check": {
+          "kind": "manual",
+          "note": "no machine contract; a human decides if the list is real"
+        },
+        "declared": {
+          "impact": 0.5,
+          "feasibility": 0.7,
+          "risk": 0.5
+        }
+      }
+    }
+  ],
+  "spread": {
+    "verifiability": 0.8,
+    "novelty": 0.1024,
+    "impact_declared": 0.45,
+    "feasibility_declared": 0.25,
+    "risk_declared": 0.3
+  },
+  "caution_declared_priors_only": false
+}
