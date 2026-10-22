@@ -1,0 +1,4 @@
+39c22110a91d27cdb6955431aa64ebef3e19509886f397bededef45db2eb4c74  index.html
+39c22110a91d27cdb6955431aa64ebef3e19509886f397bededef45db2eb4c74  latest.html
+39c22110a91d27cdb6955431aa64ebef3e19509886f397bededef45db2eb4c74  evidence/idea-board-2026-10-17/source.html
+1b2e793fc30d07ff7ebb0823930381ba2aa7f1994aa95ee38e45593c39eb298f  evidence/idea-board-2026-10-17/directive-2026-10-17.md

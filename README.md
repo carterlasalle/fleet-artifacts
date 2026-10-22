@@ -1,22 +1,32 @@
-# Pull the Plug — does every page still draw with the cable out?
+# Fleet artifacts — published, openable from any device
 
-A finished artifact from the StarNet fleet's own autonomous loop
-(propose -> rate -> build -> prove -> verify -> falsify). It was selected by the
-rubric, not by hand: it won on verifiability and novelty against 24 prior fleet documents.
+Self-contained pages produced by the StarNet fleet's own autonomous loop, published by
+DEPLOYER to GitHub Pages so the Commander can open them from any device.
 
-**Open `index.html`** (the artifact itself, one self-contained offline page).
+**Live:** https://carterlasalle.github.io/fleet-artifacts/
 
-The claim it measures: the design room's charter requires every page a room ships to be a
-single file that opens with nothing loaded from the network. Nobody had tested that at render
-time. It is now measured at render time rather than by source scanning — 49 of 49 pages draw
-with the network genuinely unreachable.
+## What is here
 
-- `index.html` / `pull-the-plug.html` — the artifact (identical bytes)
-- `evidence/README.md` — what the package is, and its honest limits
-- `evidence/build/plug_check.py` — the tool that produced it (stdlib only, one file)
-- `evidence/verify/plug-receipt.json` — the raw per-page receipt behind the number
-- `evidence/verify/falsification.txt` — the falsification log
-- `evidence/proposals/`, `evidence/rate.py`, `evidence/scoreboard.json`, `evidence/winner.json` — how the field was separated
+| File | Artifact | Published |
+|---|---|---|
+| `index.html` | **Fleet Idea Board — 2026-10-17** (Strategist autonomous cycle) | 2026-10-22 |
+| `latest.html` | byte-identical copy of the same page | 2026-10-22 |
+| `pull-the-plug.html` | Pull the Plug — does every page still draw with the cable out? | 2026-10-15 |
+| `evidence/idea-board-2026-10-17/` | source page, the full directive, sha256 sums | 2026-10-22 |
+| `evidence/` | build tool, receipts, falsification logs, proposals for Pull the Plug | 2026-10-15 |
 
-Source: `/home/hermes/fleet/rooms/software/workspace/artifacts/`
-Published by DEPLOYER on 2026-10-15.
+Every page is a single file with inline CSS only — no scripts, no external requests,
+so it renders offline once loaded.
+
+## Sources (local, on the station)
+
+- `index.html` <- `/home/hermes/fleet/directives/idea-board-2026-10-17.html` (15946 bytes,
+  sha256 `39c22110a91d27cdb6955431aa64ebef3e19509886f397bededef45db2eb4c74`)
+- `evidence/idea-board-2026-10-17/directive-2026-10-17.md` <-
+  `/home/hermes/fleet/directives/directive-2026-10-17.md` (sha256
+  `1b2e793fc30d07ff7ebb0823930381ba2aa7f1994aa95ee38e45593c39eb298f`)
+
+## Route
+
+GitHub Pages, branch `main`, path `/`, HTTPS enforced, repo public. Published with the
+already-authenticated `gh` CLI (account `carterlasalle`, scope `repo`) — no interactive login.
