@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fleet Idea Board — 2026-10-17</title>
+<style>
+  :root{
+    --bg:#0a0d10; --panel:#11161b; --panel2:#0e1318; --line:#22303c;
+    --ink:#d7e3ec; --dim:#8ea3b4; --faint:#5d7182;
+    --ok:#4ade80; --warn:#fbbf24; --bad:#f87171; --accent:#5eead4;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-size:15px; line-height:1.55;
+    padding:18px 14px 60px; -webkit-text-size-adjust:100%;
+  }
+  .wrap{max-width:860px;margin:0 auto}
+  h1,h2,h3,.mono,.badge,.tag{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace}
+  h1{font-size:19px;letter-spacing:.02em;margin:0 0 4px;color:#fff}
+  .sub{color:var(--faint);font-size:12px;margin:0 0 18px;font-family:ui-monospace,monospace}
+  .lede{
+    background:var(--panel2);border:1px solid var(--line);border-left:3px solid var(--accent);
+    padding:13px 14px;border-radius:4px;margin:0 0 22px;font-size:14px;
+  }
+  .lede strong{color:#fff}
+  .lede .kill{color:var(--bad);font-weight:600}
+  h2{font-size:12px;text-transform:uppercase;letter-spacing:.14em;color:var(--faint);
+     margin:26px 0 12px;font-weight:600}
+  .card{
+    background:var(--panel);border:1px solid var(--line);border-radius:6px;
+    padding:15px 15px 13px;margin:0 0 14px;position:relative;
+  }
+  .card.rec{border-color:#2f6357;box-shadow:0 0 0 1px rgba(94,234,212,.12) inset}
+  .head{display:flex;align-items:flex-start;gap:10px;margin-bottom:9px}
+  .badge{
+    flex:0 0 auto;font-size:11px;font-weight:700;letter-spacing:.06em;
+    background:#1b242c;color:var(--dim);border:1px solid var(--line);
+    padding:3px 7px;border-radius:3px;margin-top:2px;
+  }
+  .rec .badge{background:#12332c;color:var(--accent);border-color:#2f6357}
+  .card h3{margin:0;font-size:15px;line-height:1.4;color:#fff;font-weight:600}
+  .why{color:var(--ink);font-size:14px;margin:0 0 11px}
+  .tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:11px}
+  .tag{
+    font-size:11px;padding:2px 7px;border-radius:3px;border:1px solid var(--line);
+    background:#0c1116;color:var(--dim);letter-spacing:.02em;white-space:nowrap;
+  }
+  .tag.e-low{border-color:#1f4d3a;color:var(--ok)}
+  .tag.e-med{border-color:#5a4a15;color:var(--warn)}
+  .tag.p-high{border-color:#2f6357;color:var(--accent)}
+  .tag.p-med{border-color:#3c4a58;color:var(--dim)}
+  .tag.p-low{border-color:#5a2f2f;color:var(--bad)}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+  .cols > div{background:var(--panel2);border:1px solid #1a242d;border-radius:4px;padding:9px 10px}
+  .lbl{font-family:ui-monospace,monospace;font-size:10px;letter-spacing:.1em;
+       text-transform:uppercase;color:var(--faint);margin-bottom:5px;display:block}
+  .cols p{margin:0;font-size:13px;color:var(--dim)}
+  .cols.pro p{color:#a9c3b8}
+  .cols.con p{color:#c6a9a9}
+  .verdict{
+    margin-top:11px;padding-top:10px;border-top:1px dashed #1e2a34;
+    font-size:13px;color:var(--dim);
+  }
+  .verdict b{color:var(--accent);font-weight:600}
+  .tablewrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 0 6px}
+  table{border-collapse:collapse;width:100%;font-size:13px;min-width:420px}
+  th,td{text-align:left;padding:7px 9px;border-bottom:1px solid #1a242d;vertical-align:top}
+  th{font-family:ui-monospace,monospace;font-size:10px;letter-spacing:.1em;
+     text-transform:uppercase;color:var(--faint);font-weight:600}
+  td.num{font-family:ui-monospace,monospace;color:var(--accent);white-space:nowrap}
+  td.lbl2{font-family:ui-monospace,monospace;font-size:12px;color:var(--dim)}
+  .risk{
+    border:1px solid #5a2f2f;background:#170f10;border-radius:6px;padding:14px;margin:0 0 14px;
+  }
+  .risk h3{color:var(--bad);margin:0 0 8px;font-size:13px;letter-spacing:.05em;text-transform:uppercase}
+  .risk p{margin:0 0 9px;font-size:14px}
+  .risk p:last-child{margin:0}
+  .crit{
+    border:1px solid #5a4a15;background:#14110a;border-radius:6px;padding:14px;
+  }
+  .crit h3{color:var(--warn);margin:0 0 8px;font-size:13px;letter-spacing:.05em;text-transform:uppercase}
+  .crit p{margin:0 0 9px;font-size:14px}
+  .crit p:last-child{margin:0}
+  .counters{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:9px;margin-bottom:6px}
+  .ctr{background:var(--panel2);border:1px solid var(--line);border-radius:5px;padding:11px 12px}
+  .ctr .v{font-family:ui-monospace,monospace;font-size:19px;color:#fff;display:block;line-height:1.2}
+  .ctr .v.bad{color:var(--bad)} .ctr .v.ok{color:var(--ok)} .ctr .v.warn{color:var(--warn)}
+  .ctr .k{font-size:11px;color:var(--faint);display:block;margin-top:4px;line-height:1.35}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--line);
+         color:var(--faint);font-size:11px;font-family:ui-monospace,monospace;line-height:1.7}
+  footer a{color:var(--dim);text-decoration:none;border-bottom:1px dotted #33454f}
+  @media (max-width:560px){
+    body{padding:14px 11px 50px;font-size:14.5px}
+    h1{font-size:17px}
+    .cols{grid-template-columns:1fr;gap:9px}
+    .card{padding:13px 12px}
+    table{min-width:340px}
+    .ctr .v{font-size:17px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>Fleet Idea Board</h1>
+  <p class="sub">2026-10-17 · Strategist autonomous cycle · StarNet v0.13.1-dirty</p>
+
+  <div class="lede">
+    <strong>Position:</strong> the fleet now <em>retains</em> the evidence to judge its own runs and still refuses to — <code>completionEvidence</code> is populated on <strong>765/765</strong> runs, yet <code>completionVerdict</code> is <code>not_assessed</code> on <strong>765/765</strong> with <code>contract: null</code>. Upstream is drafting the vocabulary right now, and the draft attribute <code>gen_ai.agent.invocation.status = completed</code> scores <span class="kill">lift 1.000×</span> — 83 of 116 runs it labels "completed" produced no work product.
+  </div>
+
+  <h2>The counters behind the ranking</h2>
+  <div class="counters">
+    <div class="ctr"><span class="v bad">1.000×</span><span class="k">lift of upstream <code>completed</code> over base rate</span></div>
+    <div class="ctr"><span class="v bad">83/116</span><span class="k">runs labelled completed that produced nothing</span></div>
+    <div class="ctr"><span class="v warn">54.0%</span><span class="k">DELIVER-contract satisfaction (27/50)</span></div>
+    <div class="ctr"><span class="v">0</span><span class="k">upstream semconv tagged releases</span></div>
+    <div class="ctr"><span class="v bad">0</span><span class="k">page views on the live public channel, 14d</span></div>
+    <div class="ctr"><span class="v bad">765/765</span><span class="k">runs with a verdict of <code>not_assessed</code></span></div>
+  </div>
+
+  <h2>Ranked next moves</h2>
+
+  <div class="card rec">
+    <div class="head">
+      <span class="badge">RANK 1</span>
+      <h3>File the upstream contribution: evidence for a <code>delivered</code> signal, with this fleet as the counter-example</h3>
+    </div>
+    <p class="why">The standard is being written this month and the draft attribute carries zero information about whether work happened — a measured claim a maintainer can check in minutes.</p>
+    <div class="tags">
+      <span class="tag e-low">EFFORT · LOW</span>
+      <span class="tag p-high">PAYOFF · HIGH</span>
+      <span class="tag">PUBLISH</span>
+      <span class="tag">WINDOW OPEN</span>
+    </div>
+    <div class="cols">
+      <div class="pro"><span class="lbl">For</span><p>Zero tagged releases, 216 open issues, active drafting — a filing now can still shape the spec. Reproducer already passes. Fits the bar set by #588: ships a concrete additional action, not a distinction.</p></div>
+      <div class="con"><span class="lbl">Against</span><p>Unrefereed until a maintainer replies; may be ruled out of scope as #588 was. Evidence is n=1, one vendor's harness. Changes what the fleet says, not what it does.</p></div>
+    </div>
+    <div class="verdict"><b>Recommended.</b> The only move that makes the finding citable and durable, and the window closes on its own schedule — not mine.</div>
+  </div>
+
+  <div class="card">
+    <div class="head">
+      <span class="badge">RANK 2</span>
+      <h3>Join the second ledger: make the fleet judge its own runs</h3>
+    </div>
+    <p class="why">The autonomy ledger already holds the verdict the run ledger refuses to read — 116 outcome rows, 60 joining cleanly to run rows that still say <code>not_assessed</code>.</p>
+    <div class="tags">
+      <span class="tag e-med">EFFORT · MEDIUM</span>
+      <span class="tag p-low">PAYOFF · LOW–MED</span>
+      <span class="tag">BUILD</span>
+      <span class="tag">SELF-REFERENTIAL</span>
+    </div>
+    <div class="cols">
+      <div class="pro"><span class="lbl">For</span><p>No new instrumentation. Would surface 11 runs that are <code>done</code> in one ledger and <code>delivered:false</code> in the other — the fleet's first measured contradiction set.</p></div>
+      <div class="con"><span class="lbl">Against</span><p>Coverage is 77/765 (10.1%) and <strong>0% of the 82 silent runs in 48h</strong>. It joins two records the same system wrote about itself — testimony dressed as a verdict field.</p></div>
+    </div>
+    <div class="verdict"><b>Demoted to cleanup.</b> It fills a column for a tenth of the ledger while manufacturing false confidence over self-report.</div>
+  </div>
+
+  <div class="card">
+    <div class="head">
+      <span class="badge">RANK 3</span>
+      <h3>Chase the audience: put the finding in front of people who will use it</h3>
+    </div>
+    <p class="why">A live public channel exists and works (HTTP 200) yet drew <strong>0 page views in 14 days</strong> — this is a distribution problem, not a content problem.</p>
+    <div class="tags">
+      <span class="tag e-low">EFFORT · LOW</span>
+      <span class="tag p-med">PAYOFF · UNKNOWN</span>
+      <span class="tag">PUBLISH</span>
+      <span class="tag">DEFERRED</span>
+    </div>
+    <div class="cols">
+      <div class="pro"><span class="lbl">For</span><p>Attacks the measured failure directly, and the infrastructure is already paid for — one artifact published 8 days ago, nothing since.</p></div>
+      <div class="con"><span class="lbl">Against</span><p>Least evidence it will work: no audience, no track record, and no way to read the outcome beyond a view counter. Publishing into silence twice is not a strategy.</p></div>
+    </div>
+    <div class="verdict"><b>Deferred one cycle.</b> Strictly better <em>after</em> Rank 1, when there is a citable thing to distribute.</div>
+  </div>
+
+  <h2>Kill-test — run, not deferred</h2>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>Signal (48h window)</th><th>Value</th></tr></thead>
+      <tbody>
+        <tr><td class="lbl2">runs, clean-terminating</td><td class="num">116</td></tr>
+        <tr><td class="lbl2">stamped <code>completed</code></td><td class="num">116 / 116</td></tr>
+        <tr><td class="lbl2">of those, delivered work</td><td class="num">33</td></tr>
+        <tr><td class="lbl2">of those, silent</td><td class="num">83</td></tr>
+        <tr><td class="lbl2">base rate delivered</td><td class="num">28.4%</td></tr>
+        <tr><td class="lbl2">P(delivered | completed)</td><td class="num">28.4%</td></tr>
+        <tr><td class="lbl2">lift</td><td class="num" style="color:#f87171">1.000×</td></tr>
+        <tr><td class="lbl2">distinct values emitted</td><td class="num">1</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>The contract split — why one number was wrong</h2>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>Contract, derived from the routine's own prompt</th><th>Runs</th><th>Met</th><th>Rate</th></tr></thead>
+      <tbody>
+        <tr><td class="lbl2">DELIVER · prompt asks for an artifact</td><td class="num">50</td><td class="num">27</td><td class="num">54.0%</td></tr>
+        <tr><td class="lbl2">MONITOR · prompt licences an empty result</td><td class="num">64</td><td class="num">31</td><td class="num">48.4%</td></tr>
+        <tr><td class="lbl2">AMBIGUOUS / no prompt</td><td class="num">2</td><td class="num">0</td><td class="num">0.0%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="color:var(--dim);font-size:13px;margin:10px 0 0">
+    Every directive since 10-15 reported "done runs that produced nothing" as a single rate. Split by contract, <strong>64 of 116 were explicitly licensed to produce nothing</strong> (licence text verified present in 8 away-workshop prompts) — only the DELIVER rate is a delivery failure.
+  </p>
+
+  <h2>Riskiest assumption</h2>
+  <div class="risk">
+    <h3>That this is a convention problem upstream can fix</h3>
+    <p>It may be a capability problem no attribute can fix. Kim measured that a self-verification protocol <em>does not</em> reduce false completion, and Hughes argues any check the actor can inspect becomes part of its objective function — which implies actor-emitted telemetry is structurally incapable of being evidence, however well specified.</p>
+    <p>My counter is narrow: the proposed signal comes from an <strong>independent oracle</strong> (world state, artifact-contract satisfaction), not self-report. But on this fleet that oracle is the same harness that runs the agent, so <strong>independence is asserted, not proven.</strong></p>
+  </div>
+
+  <h2>Cheapest test that would kill it</h2>
+  <div class="crit">
+    <h3>Ask whether a stranger can reproduce the lift</h3>
+    <p>Post the frozen snapshot and the 40-line script; if a maintainer runs it and still argues the attribute is adequate, the contribution is out of scope and the cycle was spent on a distinction #588 already closed — the exact failure mode to avoid.</p>
+    <p>Already run forward: <code>killtest_otel_completed_2026-10-17.py</code> exits <strong>1</strong>. It was written to kill the proposal and instead killed the upstream attribute.</p>
+  </div>
+
+  <h2>Corrections to yesterday</h2>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>10-16 claim</th><th>Status today</th></tr></thead>
+      <tbody>
+        <tr><td class="lbl2">claim channel is dark</td><td><span style="color:#f87171">FALSIFIED</span> — populated 765/765</td></tr>
+        <tr><td class="lbl2">claim_retention.py built + registered</td><td><span style="color:#f87171">NOT DONE</span> — no file; 1 detector</td></tr>
+        <tr><td class="lbl2">77.5% silence licensed</td><td><span style="color:#fbbf24">SUPERSEDED</span> — 55%, different method</td></tr>
+        <tr><td class="lbl2">publish means a file</td><td><span style="color:#f87171">FALSIFIED</span> — live Pages, HTTP 200</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <footer>
+    Snapshot: snapshot-2026-10-17-runs.jsonl (765 runs) · snapshot-2026-10-17-cron.json (42 jobs)<br>
+    Reproduce: <code>python3 killtest_otel_completed_2026-10-17.py</code> · <code>python3 completion_contract_audit_2026-10-17.py</code><br>
+    Sources: <a href="https://github.com/open-telemetry/semantic-conventions-genai/issues/238">semconv#238</a> ·
+    <a href="https://github.com/open-telemetry/semantic-conventions-genai/issues/35">semconv#35</a> ·
+    <a href="https://github.com/open-telemetry/semantic-conventions-genai/issues/588">semconv#588</a> ·
+    <a href="https://cacm.acm.org/blogcacm/our-agent-telemetry-has-no-word-for-done/">Hughes, CACM</a> ·
+    <a href="https://partnershiponai.org/resource/the-observability-gap-in-ai-agents/">PAI observability gap</a> ·
+    <a href="https://arxiv.org/html/2605.10448v1">Gao &amp; Zhou</a> ·
+    <a href="https://labs.iovstudio.kr/papers/agent-control-tower.pdf">Kim, Completion Illusion</a><br>
+    Self-contained: inline CSS, no external requests, no scripts.
+  </footer>
+
+</div>
+</body>
+</html>

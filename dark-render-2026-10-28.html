@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pull the Plug — does every page still draw with the cable out?</title>
+<style>
+  :root{--bg:#0b0d10;--panel:#12151a;--edge:#1e242c;--ink:#e6edf3;--dim:#8b98a5;
+        --faint:#5b6673;--ok:#57d9a3;--bad:#ff6b6b;--warn:#f0b429;--line:#232a33}
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--bg);color:var(--ink);padding:22px 16px 70px;
+       font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  .wrap{max-width:940px;margin:0 auto}
+  .kick{color:var(--dim);font:600 11px/1 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+        letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
+  h1{font:600 26px/1.25 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+     letter-spacing:-.4px;margin:0 0 12px;border-left:4px solid var(--bad);padding-left:12px}
+  .meta{color:var(--faint);font:12px/1.6 ui-monospace,monospace;margin-bottom:20px}
+  .meta b{color:var(--dim)}
+  .panel{background:var(--panel);border:1px solid var(--edge);border-radius:10px;
+         padding:14px 15px;margin-bottom:14px}
+  h2{font:600 12px/1 ui-monospace,monospace;letter-spacing:2px;text-transform:uppercase;
+     color:var(--faint);margin:26px 0 10px;padding-bottom:7px;border-bottom:1px solid var(--line)}
+  .kv{display:flex;flex-wrap:wrap;gap:8px}
+  .kpi{flex:1 1 150px;background:var(--panel);border:1px solid var(--edge);border-radius:9px;padding:11px 12px}
+  .kpi .n{font:600 24px/1 ui-monospace,monospace;margin-bottom:5px}
+  .kpi .l{color:var(--dim);font:11px/1.3 ui-monospace,monospace;letter-spacing:1px;text-transform:uppercase}
+  .kpi.ok .n{color:var(--ok)} .kpi.bad .n{color:var(--bad)} .kpi.warn .n{color:var(--warn)}
+  .row{background:var(--panel);border:1px solid var(--edge);border-left:3px solid var(--edge);
+       border-radius:9px;padding:10px 12px;margin-bottom:7px}
+  .row.bad{border-left-color:var(--bad)} .row.mv{border-left-color:var(--warn)}
+  .row.ok{border-left-color:var(--ok)}
+  .p{font:600 13px/1.4 ui-monospace,monospace;word-break:break-all}
+  .tag{font:600 10px/1 ui-monospace,monospace;letter-spacing:1px;padding:3px 6px;border-radius:4px;
+       background:#1b2229;color:var(--dim);vertical-align:middle;margin-right:6px}
+  .row.bad .tag{color:var(--bad)} .row.mv .tag{color:var(--warn)} .row.ok .tag{color:var(--ok)}
+  .m{color:var(--faint);font:11px/1.5 ui-monospace,monospace;margin-top:5px}
+  .u{color:var(--bad);font:11px/1.5 ui-monospace,monospace;margin-top:4px;word-break:break-all}
+  .u.dim{color:var(--faint)}
+  ol,ul{margin:8px 0 0;padding-left:20px;color:var(--dim);font-size:14px}
+  li{margin-bottom:6px}
+  code{background:#171d24;padding:1px 5px;border-radius:4px;
+       font:12px ui-monospace,monospace;color:var(--ink);word-break:break-all}
+  .lim{border-left:3px solid var(--warn)}
+  table{border-collapse:collapse;width:100%;margin-top:6px}
+  td,th{border-bottom:1px solid var(--line);padding:6px 4px;text-align:left;
+        font:12px/1.4 ui-monospace,monospace;color:var(--dim);vertical-align:top}
+  th{color:var(--faint);font-weight:600;text-transform:uppercase;letter-spacing:1px;font-size:10px}
+  /* the phone rule: below 620px a 3-column table turns into three stacked
+     records. Measured defect it fixes: at 390px the middle header wrapped onto
+     four lines and the body cells broke mid-token, which is the densest and
+     least scannable thing on the page -- on the one width that matters here. */
+  @media (max-width:620px){
+    table.cmp thead{display:none}
+    table.cmp tr{display:block;border-bottom:1px solid var(--line);padding:8px 0}
+    table.cmp tbody,table.cmp td{display:block}
+    table.cmp td{border:0;padding:2px 0}
+    table.cmp td:first-child{color:var(--ink)}
+    table.cmp td:before{content:attr(data-label);display:block;color:var(--faint);
+      font:600 9px/1.4 ui-monospace,monospace;letter-spacing:1.5px;
+      text-transform:uppercase;margin-bottom:2px}
+  }
+  footer{margin-top:34px;padding-top:14px;border-top:1px solid var(--line);
+         color:var(--faint);font:11px/1.7 ui-monospace,monospace}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="kick">Software room &middot; offline render proof</div>
+  <h1>0 of 11 pages draw with the network genuinely unreachable; 11 do not. 10 page(s) also fail the move test.</h1>
+  <div class="meta">
+    measured  &middot; browser <b>/usr/bin/google-chrome</b> &middot;
+    blackout <b>--host-resolver-rules="MAP * ~NOTFOUND" --proxy-server=127.0.0.1:1</b><br>
+    viewport <b>390&times;844</b> (an iframe's own layout viewport) &middot;
+    pages <b>11</b> &middot; exclusions printed at the foot of this page
+  </div>
+
+  <div class="kv">
+    <div class="kpi ok"><div class="n">0</div><div class="l">draw with the cable out</div></div>
+    <div class="kpi bad"><div class="n">11</div><div class="l">do not</div></div>
+    <div class="kpi warn"><div class="n">10</div><div class="l">fail the move test</div></div>
+    <div class="kpi"><div class="n">37</div><div class="l">citation links, not offenders</div></div>
+  </div>
+
+  <h2>The method, and the mistake it exists to avoid</h2>
+  <div class="panel">
+    <p style="margin:0 0 8px;color:var(--dim);font-size:14px">
+      Both of these are <code>https://&hellip;</code> in the source, and a regex cannot tell
+      them apart:</p>
+    <table class="cmp">
+      <thead><tr><th>reference</th><th>does the browser fetch it to DRAW the page?</th>
+        <th>counts as an offender?</th></tr></thead>
+      <tbody>
+      <tr>
+        <td data-label="reference">&lt;img src&gt;, &lt;script src&gt;,
+            &lt;link rel=stylesheet&gt;, CSS <code>&#64;import</code>,
+            style <code>url()</code></td>
+        <td data-label="fetched to draw?">yes &mdash; a fail here breaks the page</td>
+        <td data-label="offender?">YES</td></tr>
+      <tr>
+        <td data-label="reference">&lt;a href&gt; to a source URL</td>
+        <td data-label="fetched to draw?">no &mdash; only if the reader clicks</td>
+        <td data-label="offender?">NO</td></tr>
+      </tbody>
+    </table>
+    <p style="margin:9px 0 0;color:var(--dim);font-size:14px">
+      This tool stops reading the source for the verdict. It launches Chrome with every
+      hostname unresolvable and no proxy, loads the page, and reads back what the browser
+      actually tried to fetch and what came back empty (<code>responseStatus:0</code>,
+      <code>transferSize:0</code>). A page is broken only when a subresource the page
+      needed <em>succeeded with the network up and was denied with it down</em>.</p>
+  </div>
+
+  <h2>Every page, worst first</h2>
+  <div class="row bad"><div class="p"><span class="tag">BROKEN</span> sample/tools_calculator_scientific.html</div><div class="m">3 citation link(s) &middot; 3 remote subresource(s) &middot; 7 sibling ref(s) &middot; 30290 bytes</div><div class="u">DENIED IN THE DARK: https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css</div><div class="u">DENIED IN THE DARK: https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap</div><div class="u">DENIED IN THE DARK: https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon.svg"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon-32x32.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon-16x16.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../apple-touch-icon.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../manifest.json"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../assets/css/tool-base.css"&gt;</div><div class="u dim">sibling file, move test: &lt;script src="../../assets/js/tool-chrome.js"&gt;</div></div>
+<div class="row bad"><div class="p"><span class="tag">BROKEN</span> sample/tools_data_histogram-generator.html</div><div class="m">3 citation link(s) &middot; 3 remote subresource(s) &middot; 7 sibling ref(s) &middot; 36871 bytes</div><div class="u">DENIED IN THE DARK: https://cdn.jsdelivr.net/npm/chart.js</div><div class="u">DENIED IN THE DARK: https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap</div><div class="u">DENIED IN THE DARK: https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon.svg"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon-32x32.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon-16x16.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../apple-touch-icon.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../manifest.json"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../assets/css/tool-base.css"&gt;</div><div class="u dim">sibling file, move test: &lt;script src="../../assets/js/tool-chrome.js"&gt;</div></div>
+<div class="row bad"><div class="p"><span class="tag">BROKEN</span> sample/tools_dev_cron-generator.html</div><div class="m">3 citation link(s) &middot; 2 remote subresource(s) &middot; 7 sibling ref(s) &middot; 20693 bytes</div><div class="u">DENIED IN THE DARK: https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap</div><div class="u">DENIED IN THE DARK: https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon.svg"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon-32x32.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon-16x16.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../apple-touch-icon.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../manifest.json"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../assets/css/tool-base.css"&gt;</div><div class="u dim">sibling file, move test: &lt;script src="../../assets/js/tool-chrome.js"&gt;</div></div>
+<div class="row bad"><div class="p"><span class="tag">BROKEN</span> sample/tools_dev_json-formatter.html</div><div class="m">4 citation link(s) &middot; 1 remote subresource(s) &middot; 7 sibling ref(s) &middot; 51331 bytes</div><div class="u">DENIED IN THE DARK: https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon.svg"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon-32x32.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon-16x16.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../apple-touch-icon.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../manifest.json"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../assets/css/tool-base.css"&gt;</div><div class="u dim">sibling file, move test: &lt;script src="../../assets/js/tool-chrome.js"&gt;</div></div>
+<div class="row bad"><div class="p"><span class="tag">BROKEN</span> sample/tools_dev_xml-formatter.html</div><div class="m">4 citation link(s) &middot; 2 remote subresource(s) &middot; 7 sibling ref(s) &middot; 29340 bytes</div><div class="u">DENIED IN THE DARK: https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap</div><div class="u">DENIED IN THE DARK: https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon.svg"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon-32x32.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon-16x16.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../apple-touch-icon.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../manifest.json"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../assets/css/tool-base.css"&gt;</div><div class="u dim">sibling file, move test: &lt;script src="../../assets/js/tool-chrome.js"&gt;</div></div>
+<div class="row bad"><div class="p"><span class="tag">BROKEN</span> sample/tools_game_dice-roller.html</div><div class="m">4 citation link(s) &middot; 2 remote subresource(s) &middot; 7 sibling ref(s) &middot; 28939 bytes</div><div class="u">DENIED IN THE DARK: https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;family=Space+Grotesk:wght@400;500;600&amp;display=swap</div><div class="u">DENIED IN THE DARK: https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon.svg"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon-32x32.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon-16x16.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../apple-touch-icon.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../manifest.json"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../assets/css/tool-base.css"&gt;</div><div class="u dim">sibling file, move test: &lt;script src="../../assets/js/tool-chrome.js"&gt;</div></div>
+<div class="row bad"><div class="p"><span class="tag">BROKEN</span> sample/tools_health_caffeine-half-life-calculator.html</div><div class="m">4 citation link(s) &middot; 2 remote subresource(s) &middot; 7 sibling ref(s) &middot; 63037 bytes</div><div class="u">DENIED IN THE DARK: https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap</div><div class="u">DENIED IN THE DARK: https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon.svg"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon-32x32.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon-16x16.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../apple-touch-icon.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../manifest.json"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../assets/css/tool-base.css"&gt;</div><div class="u dim">sibling file, move test: &lt;script src="../../assets/js/tool-chrome.js"&gt;</div></div>
+<div class="row bad"><div class="p"><span class="tag">BROKEN</span> sample/tools_math_matrix-determinant-inverse.html</div><div class="m">4 citation link(s) &middot; 2 remote subresource(s) &middot; 7 sibling ref(s) &middot; 55175 bytes</div><div class="u">DENIED IN THE DARK: https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap</div><div class="u">DENIED IN THE DARK: https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon.svg"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon-32x32.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon-16x16.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../apple-touch-icon.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../manifest.json"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../assets/css/tool-base.css"&gt;</div><div class="u dim">sibling file, move test: &lt;script src="../../assets/js/tool-chrome.js"&gt;</div></div>
+<div class="row bad"><div class="p"><span class="tag">BROKEN</span> sample/tools_network_websocket-client.html</div><div class="m">3 citation link(s) &middot; 3 remote subresource(s) &middot; 7 sibling ref(s) &middot; 30684 bytes</div><div class="u">DENIED IN THE DARK: https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css</div><div class="u">DENIED IN THE DARK: https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap</div><div class="u">DENIED IN THE DARK: https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon.svg"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon-32x32.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon-16x16.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../apple-touch-icon.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../manifest.json"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../assets/css/tool-base.css"&gt;</div><div class="u dim">sibling file, move test: &lt;script src="../../assets/js/tool-chrome.js"&gt;</div></div>
+<div class="row bad"><div class="p"><span class="tag">BROKEN</span> sample/tools_security_csp-generator.html</div><div class="m">3 citation link(s) &middot; 3 remote subresource(s) &middot; 7 sibling ref(s) &middot; 36364 bytes</div><div class="u">DENIED IN THE DARK: https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css</div><div class="u">DENIED IN THE DARK: https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap</div><div class="u">DENIED IN THE DARK: https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon.svg"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon-32x32.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon-16x16.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../apple-touch-icon.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../manifest.json"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../assets/css/tool-base.css"&gt;</div><div class="u dim">sibling file, move test: &lt;script src="../../assets/js/tool-chrome.js"&gt;</div></div>
+<div class="row bad"><div class="p"><span class="tag">BROKEN</span> sample/archive_design-reference_components.html</div><div class="m">2 citation link(s) &middot; 1 remote subresource(s) &middot; 0 sibling ref(s) &middot; 47497 bytes</div><div class="u">DENIED IN THE DARK: https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&amp;family=Space+Grotesk:wght@400;500;600;700&amp;family=Inter:wght@400;500;600;700&amp;family=DM+Sans:wght@400;500;600;700&amp;family=Instrument+Serif&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Archivo:wght@500;600;700&amp;family=Fraunces:wght@400;500;600&amp;family=Source+Serif+4:wght@400;500;600&amp;display=swap</div></div>
+
+  <h2>What would falsify this</h2>
+  <div class="panel">
+    <ul>
+      <li>A control page carrying one remote <code>&lt;script src&gt;</code> must be found
+          BROKEN &mdash; and it is, in the self-test, on every run.</li>
+      <li>A page with no remote anything must be found CLEAN &mdash; and it is; that is the
+          negative control, and without it "found nothing" would be indistinguishable from
+          "looked at nothing".</li>
+      <li>The light/dark pair must disagree on the network itself. If both runs report the
+          asset loaded, the blackout failed and this page is worthless.</li>
+      <li>The logic self-test is sliced out of <em>this build</em> between its own marker
+          comments, so the code under test and the test are the same bytes. The slice is
+          then re-executed in a namespace holding nothing but <code>re</code> and
+          <code>json</code> &mdash; on the first run it failed there with a
+          <code>NameError</code>, which is the whole point of testing the bytes you ship
+          rather than the ones you remember writing.</li>
+    </ul>
+  </div>
+
+  <h2>Honest limits</h2>
+  <div class="panel lim">
+    <ul>
+      <li><b>A citation is not proof it was followed.</b> This page proves the cited URL did
+          not load. It does not check the URL still resolves, or still says what the page
+          claims. A dead citation passes this tool.</li>
+      <li><b>Rendering is not layout.</b> Off-screen overflow and the 390px rule are a
+          different measurement (see <code>overflow390.py</code>). This page fires no pixels
+          judgment.</li>
+      <li><b>Excluded deliberately:</b> /workshop/, /.selftest/, /node_modules/, /build/, /.output/, /downloads/, /shots/, /plug-proof/, /.browser-profile/, /test_fixtures/.
+          Loop fixtures, browser-profile internals and build checkpoints are not shipped
+          pages; leaving them out is a decision, not an accident.</li>
+      <li><b>The cache is disabled per launch, not per page.</b> Two pages in one batch share
+          a browser, so a URL fetched by the first page could in principle be served from
+          memory for the second. The counts would not change; a per-page launch would.</li>
+      <li><b>11 of 11 is the finding tonight.</b> A clean sweep is a real
+          result here and not a soft one &mdash; but it only covers the pages in the roots
+          listed below.</li>
+    </ul>
+  </div>
+
+  <h2>How to re-run it</h2>
+  <div class="panel">
+    <p style="margin:0 0 6px;color:var(--dim);font-size:14px">The exact command that produced this page:</p>
+    <p style="margin:0"><code>python3 plug_check.py --scan</code></p>
+    <p style="margin:8px 0 0;color:var(--dim);font-size:14px">The self-test, on these bytes:</p>
+    <p style="margin:0"><code>python3 plug_check.py --selftest</code></p>
+    <p style="margin:8px 0 0;color:var(--dim);font-size:14px">Roots scanned:</p>
+    <p style="margin:0">sample</p>
+  </div>
+
+  <footer>
+    verdict signature (a re-run must reproduce this byte-for-byte; only timers may move):<br>
+    <code>[{"broken": ["https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&amp;family=Space+Grotesk:wght@400;500;600;700&amp;family=Inter:wght@400;500;600;700&amp;family=DM+Sans:wght@400;500;600;700&amp;family=Instrument+Serif&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Archivo:wght@500;600;700&amp;family=Fraunces:wght@400;500;600&amp;family=Source+Serif+4:wght@400;500;600&amp;display=swap"], "moved": false, "page": "sample/archive_design-reference_components.html", "verdict": "BROKEN"}, {"broken": ["https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css", "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap", "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap"], "moved": true, "page": "sample/tools_calculator_scientific.html", "verdict": "BROKEN"}, {"broken": ["https://cdn.jsdelivr.net/npm/chart.js", "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap", "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap"], "moved": true, "page": "sample/tools_data_histogram-generator.html", "verdict": "BROKEN"}, {"broken": ["https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap", "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap"], "moved": true, "page": "sample/tools_dev_cron-generator.html", "verdict": "BROKEN"}, {"broken": ["https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap"], "moved": true, "page": "sample/tools_dev_json-formatter.html", "verdict": "BROKEN"}, {"broken": ["https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap", "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap"], "moved": true, "page": "sample/tools_dev_xml-formatter.html", "verdict": "BROKEN"}, {"broken": ["https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;family=Space+Grotesk:wght@400;500;600&amp;display=swap", "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap"], "moved": true, "page": "sample/tools_game_dice-roller.html", "verdict": "BROKEN"}, {"broken": ["https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap", "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap"], "moved": true, "page": "sample/tools_health_caffeine-half-life-calculator.html", "verdict": "BROKEN"}, {"broken": ["https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap", "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap"], "moved": true, "page": "sample/tools_math_matrix-determinant-inverse.html", "verdict": "BROKEN"}, {"broken": ["https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css", "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap", "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap"], "moved": true, "page": "sample/tools_network_websocket-client.html", "verdict": "BROKEN"}, {"broken": ["https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css", "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap", "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap"], "moved": true, "page": "sample/tools_security_csp-generator.html", "verdict": "BROKEN"}]</code><br><br>
+    Pull the Plug &middot; built in the software room &middot; everything here is local:
+    nothing was sent, published, spent or moved off this machine.
+  </footer>
+</div>
+</body>
+</html>
