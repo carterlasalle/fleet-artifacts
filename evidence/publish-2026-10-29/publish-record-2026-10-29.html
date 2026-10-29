@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Publish record — 2026-10-29 · DEPLOYER</title>
+<style>
+  :root{--bg:#0b0d10;--panel:#12151a;--edge:#1e242c;--ink:#e6edf3;--dim:#8b98a5;
+        --faint:#5b6673;--ok:#57d9a3;--bad:#ff6b6b;--warn:#f0b429;--line:#232a33}
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--bg);color:var(--ink);padding:22px 16px 70px;
+       font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  .wrap{max-width:920px;margin:0 auto}
+  .kick{color:var(--dim);font:600 11px/1 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+        letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
+  h1{font:600 26px/1.25 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+     letter-spacing:-.4px;margin:0 0 12px;border-left:4px solid var(--ok);padding-left:12px}
+  .meta{color:var(--faint);font:12px/1.7 ui-monospace,monospace;margin-bottom:20px}
+  .meta b{color:var(--dim)}
+  .panel{background:var(--panel);border:1px solid var(--edge);border-radius:10px;
+         padding:14px 15px;margin-bottom:14px}
+  h2{font:600 12px/1 ui-monospace,monospace;letter-spacing:2px;text-transform:uppercase;
+     color:var(--faint);margin:26px 0 10px;padding-bottom:7px;border-bottom:1px solid var(--line)}
+  a{color:var(--ok)}
+  .url{display:block;background:#0f1318;border:1px solid var(--line);border-radius:8px;
+       padding:12px 13px;font:600 14px/1.4 ui-monospace,monospace;color:var(--ok);
+       word-break:break-all;margin:10px 0 8px}
+  .kv{display:flex;flex-wrap:wrap;gap:8px}
+  .kpi{flex:1 1 160px;background:var(--panel);border:1px solid var(--edge);border-radius:9px;padding:11px 12px}
+  .kpi .n{font:600 22px/1 ui-monospace,monospace;margin-bottom:6px}
+  .kpi .l{color:var(--dim);font:11px/1.35 ui-monospace,monospace;letter-spacing:1px;text-transform:uppercase}
+  .kpi.ok .n{color:var(--ok)} .kpi.bad .n{color:var(--bad)} .kpi.warn .n{color:var(--warn)}
+  table{width:100%;border-collapse:collapse;font:13px/1.5 ui-monospace,monospace}
+  th{text-align:left;color:var(--faint);font:600 10px/1 ui-monospace,monospace;letter-spacing:1.5px;
+     text-transform:uppercase;padding:0 10px 8px 0;border-bottom:1px solid var(--line)}
+  td{padding:9px 10px 9px 0;border-bottom:1px solid #191f26;vertical-align:top;word-break:break-word}
+  td:first-child{white-space:nowrap}
+  .ok{color:var(--ok)} .bad{color:var(--bad)} .warn{color:var(--warn)}
+  code,.mono{font:12px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+  code{background:#0f1318;border:1px solid var(--line);border-radius:4px;padding:1px 5px;color:#c9d5e1}
+  .sha{font:11px/1.6 ui-monospace,monospace;color:var(--dim);word-break:break-all;margin-top:6px}
+  p{margin:0 0 10px}
+  ul{margin:0 0 10px;padding-left:20px} li{margin-bottom:6px}
+  .note{color:var(--dim);font-size:14px}
+  .foot{color:var(--faint);font:11px/1.7 ui-monospace,monospace;margin-top:30px;
+        border-top:1px solid var(--line);padding-top:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="kick">DEPLOYER · StarNet station · publish record</div>
+  <h1>Published: Pull the Plug, dark render 2026-10-28</h1>
+  <div class="meta">
+    <b>Run</b> 02c14b36 · <b>Agent</b> deployer · <b>Harness</b> StarNet v0.13.1-dirty ·
+    <b>Model</b> deepseek/deepseek-v4.1-flash via openrouter<br>
+    <b>Published</b> 2026-10-29T18:03Z · <b>Route</b> GitHub Pages via authenticated <code>gh</code> CLI
+  </div>
+
+  <h2>The live address</h2>
+  <div class="panel">
+    <a class="url" href="https://carterlasalle.github.io/fleet-artifacts/">https://carterlasalle.github.io/fleet-artifacts/</a>
+    <div class="note">
+      Loaded over the network after the deploy: <span class="ok">HTTP/2 200</span>, 27,794 bytes,
+      <code>text/html; charset=utf-8</code>, <code>last-modified: Thu, 29 Oct 2026 18:03:05 GMT</code>.
+      The served body is byte-identical to the source file.
+    </div>
+    <div class="sha">served sha256&nbsp; e3969e1ef89caf3dd512a23f1c85ad066dfae4a0243935b97012b7696ed78d39<br>
+    source sha256&nbsp; e3969e1ef89caf3dd512a23f1c85ad066dfae4a0243935b97012b7696ed78d39</div>
+  </div>
+
+  <div class="kv">
+    <div class="kpi ok"><div class="n">200</div><div class="l">HTTP status on the live URL</div></div>
+    <div class="kpi ok"><div class="n">match</div><div class="l">sha256, live vs source</div></div>
+    <div class="kpi ok"><div class="n">0</div><div class="l">external resource refs in the page</div></div>
+    <div class="kpi ok"><div class="n">built</div><div class="l">GitHub Pages build state</div></div>
+  </div>
+
+  <h2>What was published, and why this artifact</h2>
+  <div class="panel">
+    <table>
+      <tr><td>artifact</td><td><span class="mono">dark-render-2026-10-28.html</span> — titled
+        “Pull the Plug — does every page still draw with the cable out?”</td></tr>
+      <tr><td>source</td><td class="mono">/home/hermes/fleet/rooms/software/workspace/artifacts/dark-render-2026-10-28.html</td></tr>
+      <tr><td>produced</td><td>2026-10-28 10:06 by the software room</td></tr>
+      <tr><td>size</td><td class="mono">27,794 bytes</td></tr>
+      <tr><td>self-check</td><td><span class="ok">passes</span> — zero <code>&lt;script&gt;</code> tags,
+        zero unescaped <code>&lt;link&gt;</code>, <code>&lt;img&gt;</code> or <code>&lt;iframe&gt;</code>.
+        Every <code>https://</code> string in the file is escaped text inside the report body,
+        not a resource reference. Inline CSS only.</td></tr>
+    </table>
+    <p style="margin-top:12px" class="note">
+      It was chosen because it is the newest finished artifact anywhere under
+      <code>rooms/*/workspace/artifacts/</code> — four rooms were swept; the next newest page
+      was 2026-10-08 — and because it is the one page in the fleet that is provably
+      self-contained without needing to be rebuilt.
+    </p>
+    <p class="note">
+      What it reports: 0 of 11 pages in the sample root draw with the network genuinely
+      unreachable; 11 do not; 10 fail the move test. The tool launches Chrome with every
+      hostname unresolvable and reads back what the browser actually attempted to fetch.
+      It carries its own negative control and its own falsification section — including the
+      honest limit that a passing citation is not proof the citation was followed.
+    </p>
+  </div>
+
+  <h2>Routes tried, in order of quietness</h2>
+  <div class="panel">
+    <table>
+      <thead><tr><th>#</th><th>route</th><th>state on this host</th><th>outcome</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>GitHub Pages via <code>gh</code> CLI</td>
+            <td>authenticated as <code>carterlasalle</code>; scopes include <code>repo</code> and
+                <code>workflow</code>; Pages already serving this repo from <code>main</code></td>
+            <td class="ok">USED</td></tr>
+        <tr><td>2</td><td>Vercel CLI</td><td>not installed on PATH</td><td class="bad">unavailable</td></tr>
+        <tr><td>3</td><td>Wrangler / Cloudflare Pages</td><td>not installed on PATH</td><td class="bad">unavailable</td></tr>
+        <tr><td>4</td><td>cloudflared tunnel</td>
+            <td>binary installed and a tunnel is running, but the ingress hostnames live in the
+                Cloudflare dashboard and there is no API token on the box</td>
+            <td class="warn">needs the Commander</td></tr>
+        <tr><td>5</td><td>Tailscale Funnel</td>
+            <td>serves a tailnet hostname only</td><td class="warn">not public</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:12px" class="note">
+      Route 1 was authenticated before this run started, so no sign-in was needed. Routes 2–5
+      are recorded at their real state; none of them was reported as a success.
+    </p>
+  </div>
+
+  <h2>What changed on the host</h2>
+  <div class="panel">
+    <ul>
+      <li>Two commits pushed to <code>carterlasalle/fleet-artifacts</code> (<code>main</code>),
+          the fleet's existing public publish channel: <code>b52cca5</code> publishes the
+          artifact, <code>f3e1f85</code> updates the record and README.</li>
+      <li><code>index.html</code>, <code>latest.html</code> and
+          <code>dark-render-2026-10-28.html</code> now hold the 2026-10-28 page.</li>
+      <li>The previous front page was preserved, not overwritten in place: it now lives at
+          <code>idea-board-2026-10-17.html</code>, with a copy at
+          <code>evidence/publish-2026-10-29/previous-index-idea-board-2026-10-17.html</code>.</li>
+      <li><code>evidence/publish-2026-10-29/</code> holds the source copy and a
+          <code>SHA256SUMS.txt</code> over every page in the repo.</li>
+      <li>The source artifacts on the station were <span class="ok">read-only</span> — copied,
+          never modified.</li>
+    </ul>
+  </div>
+
+  <h2>What was exercised on the live URL</h2>
+  <div class="panel">
+    <table>
+      <thead><tr><th>check</th><th>result</th></tr></thead>
+      <tbody>
+        <tr><td>GET /</td><td><span class="ok">HTTP/2 200</span> · 27,794 bytes · served by <code>GitHub.com</code></td></tr>
+        <tr><td>body hash vs source</td><td><span class="ok">identical</span> · <code>e3969e1e…78d39</code></td></tr>
+        <tr><td>title rendered</td><td><span class="ok">“Pull the Plug — does every page still draw with the cable out?”</span></td></tr>
+        <tr><td>independent read of <code>/latest.html</code></td><td><span class="ok">same content</span> — full body text retrieved over the network</td></tr>
+        <tr><td>Pages build state</td><td><span class="ok"><code>built</code></span> · 2026-10-29T18:03:08Z</td></tr>
+        <tr><td>HTTPS enforcement</td><td><span class="ok">on</span> · HSTS <code>max-age=31556952</code></td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:12px" class="note">
+      One limitation worth stating: the station's controlled browser was locked by another
+      agent run at verification time, so the render proof is a network read of the served
+      bytes plus the hash match rather than a fresh screenshot. The bytes that were served
+      are the bytes that were published, which is the stronger check of the two.
+    </p>
+  </div>
+
+  <h2>Settings the Commander must apply</h2>
+  <div class="panel">
+    <p class="note"><span class="ok">None.</span> The publish is public and verified as it stands.</p>
+    <ul class="note">
+      <li>The repository is public. A public Pages URL cannot be private on a free plan.</li>
+      <li>The site deploys from a GitHub Actions workflow (Settings → Pages → Source reads
+          “GitHub Actions”). No action needed unless you prefer the legacy builder.</li>
+    </ul>
+  </div>
+
+  <div class="foot">
+    Record generated 2026-10-29 by DEPLOYER on the StarNet station. This page is standalone:
+    inline CSS only, no scripts, no remote resources — it opens the same with the network off.
+    Source of record: <span class="mono">publish-2026-10-29/PUBLISH-RECORD.md</span>, mirrored to
+    the repository as <span class="mono">PUBLISH-RECORD.md</span>.
+  </div>
+
+</div>
+</body>
+</html>
