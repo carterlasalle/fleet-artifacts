@@ -1,186 +1,282 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Pull the Plug — does every page still draw with the cable out?</title>
+<title>Fleet Idea Board — 2026-11-05</title>
 <style>
-  :root{--bg:#0b0d10;--panel:#12151a;--edge:#1e242c;--ink:#e6edf3;--dim:#8b98a5;
-        --faint:#5b6673;--ok:#57d9a3;--bad:#ff6b6b;--warn:#f0b429;--line:#232a33}
-  *{box-sizing:border-box}
-  html{-webkit-text-size-adjust:100%}
-  body{margin:0;background:var(--bg);color:var(--ink);padding:22px 16px 70px;
-       font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
-  .wrap{max-width:940px;margin:0 auto}
-  .kick{color:var(--dim);font:600 11px/1 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-        letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
-  h1{font:600 26px/1.25 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-     letter-spacing:-.4px;margin:0 0 12px;border-left:4px solid var(--bad);padding-left:12px}
-  .meta{color:var(--faint);font:12px/1.6 ui-monospace,monospace;margin-bottom:20px}
-  .meta b{color:var(--dim)}
-  .panel{background:var(--panel);border:1px solid var(--edge);border-radius:10px;
-         padding:14px 15px;margin-bottom:14px}
-  h2{font:600 12px/1 ui-monospace,monospace;letter-spacing:2px;text-transform:uppercase;
-     color:var(--faint);margin:26px 0 10px;padding-bottom:7px;border-bottom:1px solid var(--line)}
-  .kv{display:flex;flex-wrap:wrap;gap:8px}
-  .kpi{flex:1 1 150px;background:var(--panel);border:1px solid var(--edge);border-radius:9px;padding:11px 12px}
-  .kpi .n{font:600 24px/1 ui-monospace,monospace;margin-bottom:5px}
-  .kpi .l{color:var(--dim);font:11px/1.3 ui-monospace,monospace;letter-spacing:1px;text-transform:uppercase}
-  .kpi.ok .n{color:var(--ok)} .kpi.bad .n{color:var(--bad)} .kpi.warn .n{color:var(--warn)}
-  .row{background:var(--panel);border:1px solid var(--edge);border-left:3px solid var(--edge);
-       border-radius:9px;padding:10px 12px;margin-bottom:7px}
-  .row.bad{border-left-color:var(--bad)} .row.mv{border-left-color:var(--warn)}
-  .row.ok{border-left-color:var(--ok)}
-  .p{font:600 13px/1.4 ui-monospace,monospace;word-break:break-all}
-  .tag{font:600 10px/1 ui-monospace,monospace;letter-spacing:1px;padding:3px 6px;border-radius:4px;
-       background:#1b2229;color:var(--dim);vertical-align:middle;margin-right:6px}
-  .row.bad .tag{color:var(--bad)} .row.mv .tag{color:var(--warn)} .row.ok .tag{color:var(--ok)}
-  .m{color:var(--faint);font:11px/1.5 ui-monospace,monospace;margin-top:5px}
-  .u{color:var(--bad);font:11px/1.5 ui-monospace,monospace;margin-top:4px;word-break:break-all}
-  .u.dim{color:var(--faint)}
-  ol,ul{margin:8px 0 0;padding-left:20px;color:var(--dim);font-size:14px}
-  li{margin-bottom:6px}
-  code{background:#171d24;padding:1px 5px;border-radius:4px;
-       font:12px ui-monospace,monospace;color:var(--ink);word-break:break-all}
-  .lim{border-left:3px solid var(--warn)}
-  table{border-collapse:collapse;width:100%;margin-top:6px}
-  td,th{border-bottom:1px solid var(--line);padding:6px 4px;text-align:left;
-        font:12px/1.4 ui-monospace,monospace;color:var(--dim);vertical-align:top}
-  th{color:var(--faint);font-weight:600;text-transform:uppercase;letter-spacing:1px;font-size:10px}
-  /* the phone rule: below 620px a 3-column table turns into three stacked
-     records. Measured defect it fixes: at 390px the middle header wrapped onto
-     four lines and the body cells broke mid-token, which is the densest and
-     least scannable thing on the page -- on the one width that matters here. */
-  @media (max-width:620px){
-    table.cmp thead{display:none}
-    table.cmp tr{display:block;border-bottom:1px solid var(--line);padding:8px 0}
-    table.cmp tbody,table.cmp td{display:block}
-    table.cmp td{border:0;padding:2px 0}
-    table.cmp td:first-child{color:var(--ink)}
-    table.cmp td:before{content:attr(data-label);display:block;color:var(--faint);
-      font:600 9px/1.4 ui-monospace,monospace;letter-spacing:1.5px;
-      text-transform:uppercase;margin-bottom:2px}
+  :root{
+    --bg:#0b0e13; --panel:#121722; --panel2:#161c29; --line:#232c3d;
+    --fg:#d7dee9; --dim:#8b98ad; --acc:#5fd3a6; --warn:#e8b455; --bad:#e8685d; --blue:#6aa9f0;
   }
-  footer{margin-top:34px;padding-top:14px;border-top:1px solid var(--line);
-         color:var(--faint);font:11px/1.7 ui-monospace,monospace}
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--fg)}
+  body{
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+    font-size:15px; line-height:1.55; padding:18px 14px 56px;
+    overflow-wrap:anywhere;
+  }
+  .wrap{max-width:960px;margin:0 auto}
+
+  header{border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:20px}
+  h1{font-size:20px;margin:0 0 6px;letter-spacing:.02em}
+  .sub{color:var(--dim);font-size:13px}
+  .sub b{color:var(--fg);font-weight:600}
+
+  .pos{border:1px solid var(--line);border-left:3px solid var(--acc);background:var(--panel);
+       padding:13px 14px;margin:0 0 22px;font-size:14px}
+  .pos .tag{display:block;color:var(--acc);font-size:11px;letter-spacing:.14em;margin-bottom:7px}
+  .pos .two{margin:0 0 9px}
+  .pos .two:last-child{margin-bottom:0}
+
+  h2{font-size:13px;letter-spacing:.16em;color:var(--dim);font-weight:600;margin:26px 0 12px}
+
+  .proposal{border:1px solid var(--line);background:var(--panel);border-radius:6px;
+            padding:14px;margin:0 0 14px;position:relative}
+  .proposal.r1{border-left:3px solid var(--acc)}
+  .proposal.r2{border-left:3px solid var(--blue)}
+  .proposal.r3{border-left:3px solid var(--warn)}
+  .badge{display:inline-block;font-size:11px;letter-spacing:.14em;padding:4px 9px;border-radius:3px;
+         background:#1d2534;color:var(--dim);margin-bottom:10px}
+  .proposal.r1 .badge{color:var(--acc)}
+  .proposal.r2 .badge{color:var(--blue)}
+  .proposal.r3 .badge{color:var(--warn)}
+  .ptitle{font-size:16px;margin:0 0 8px;font-weight:600;letter-spacing:.01em}
+  .rationale{margin:0 0 11px;color:var(--fg);font-size:14px}
+  .tags{display:flex;flex-wrap:wrap;gap:7px}
+  .tag{font-size:11px;letter-spacing:.08em;padding:4px 9px;border-radius:3px;
+       border:1px solid var(--line);background:var(--panel2);color:var(--dim)}
+  .tag.eff{color:var(--blue)} .tag.pay{color:var(--acc)} .tag.blk{color:var(--bad)}
+
+  table{width:100%;border-collapse:collapse;font-size:13px;margin:6px 0 0}
+  th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--dim);font-weight:600;font-size:11px;letter-spacing:.1em}
+  td.y{color:var(--acc)} td.n{color:var(--bad)}
+
+  details{border:1px solid var(--line);background:var(--panel);border-radius:6px;margin:0 0 10px}
+  details[open]{border-left:3px solid var(--blue)}
+  summary{cursor:pointer;padding:11px 13px;min-height:32px;display:flex;align-items:center;
+          font-size:13px;color:var(--blue);letter-spacing:.04em}
+  details .body{padding:2px 13px 13px;font-size:13px;color:var(--fg)}
+  details .body p{margin:0 0 9px}
+
+  code{background:var(--panel2);border:1px solid var(--line);border-radius:3px;padding:1px 5px;font-size:12.5px}
+  .q{color:var(--dim);border-left:2px solid var(--line);padding-left:11px;margin:9px 0;font-size:13px}
+
+  footer{margin-top:28px;padding-top:14px;border-top:1px solid var(--line);
+         color:var(--dim);font-size:12px}
+  /* 2026-11-05: raised from a bare 12px inline anchor (measured height 13px, untappable — the same
+     class the 2026-11-04 gate missed) to a >=32px tappable chip with real padding. */
+  footer a{color:var(--blue);text-decoration:none;overflow-wrap:anywhere;
+           display:inline-block;min-height:32px;padding:7px 10px;
+           background:var(--panel);border:1px solid var(--line);border-radius:4px}
+  footer .kv{margin:0 0 5px}
+
+  @media (max-width:430px){
+    body{font-size:14px;padding:14px 11px 48px}
+    h1{font-size:17px}
+    .ptitle{font-size:15px}
+    th,td{padding:8px 5px;font-size:12px}
+    .tags{gap:6px}
+  }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="kick">Software room &middot; offline render proof</div>
-  <h1>0 of 11 pages draw with the network genuinely unreachable; 11 do not. 10 page(s) also fail the move test.</h1>
-  <div class="meta">
-    measured  &middot; browser <b>/usr/bin/google-chrome</b> &middot;
-    blackout <b>--host-resolver-rules="MAP * ~NOTFOUND" --proxy-server=127.0.0.1:1</b><br>
-    viewport <b>390&times;844</b> (an iframe's own layout viewport) &middot;
-    pages <b>11</b> &middot; exclusions printed at the foot of this page
+
+<header>
+  <h1>FLEET IDEA BOARD — 2026-11-05</h1>
+  <div class="sub">
+    Strategist · autonomous daily cycle · <b>freeze AS_OF=1793888785699</b> (2026-11-05T14:26:25Z)<br>
+    Verifier <b>measure_2026-11-05.py — 35 checks, 35 PASS, EXIT 0</b>. Focus claims produced by executing
+    the station's own resolver, not inferred.
   </div>
+</header>
 
-  <div class="kv">
-    <div class="kpi ok"><div class="n">0</div><div class="l">draw with the cable out</div></div>
-    <div class="kpi bad"><div class="n">11</div><div class="l">do not</div></div>
-    <div class="kpi warn"><div class="n">10</div><div class="l">fail the move test</div></div>
-    <div class="kpi"><div class="n">37</div><div class="l">citation links, not offenders</div></div>
+<div class="pos">
+  <span class="tag">THE POSITION</span>
+  <p class="two">Yesterday's directive ranked "find what reads the quest into the nightly mint" first and said it
+  could not find that code path. It is <code>sidecar/index.js:6303</code> — <code>questStore.list().filter(open).slice(0, 12)</code>
+  — and the <b>truncation by store insertion order is the whole defect</b>: the live focus is <code>q:13</code>
+  (score 0.453) while four open quests score higher (<code>q:22</code> at 1.075), because <code>q:22</code> is the
+  22nd element of a list sliced to 12 and is therefore <b>never a candidate</b>.</p>
+  <p class="two">Yesterday's fix — retire <code>q:13</code> — <b>does not work</b>: with <code>q:13</code> removed the
+  resolver returns <code>q:11</code>, the next-oldest instrument quest, because the survivor set is still
+  <code>q:1..q:12</code>. The fleet does not repeat one quest, it inherits the next one in line — and
+  <b>every quest with an external blast radius (both security, both distribution) is in the nine that are cut.</b></p>
+</div>
+
+<h2>RANKED NEXT MOVES</h2>
+
+<div class="proposal r1">
+  <span class="badge">RANK 01</span>
+  <h3 class="ptitle">Fix the candidate set at the truncation site</h3>
+  <p class="rationale">A shipped priority resolver was fed a list pre-cut to the twelve <i>oldest</i> open quests,
+  so the newest goal and both internet-facing security goals are structurally unreachable. One line, reproduced
+  before and after by execution.</p>
+  <div class="tags">
+    <span class="tag eff">EFFORT ~30 min</span>
+    <span class="tag pay">PAYOFF HIGH</span>
+    <span class="tag">NEEDS Commander ok — harness file</span>
   </div>
+</div>
 
-  <h2>The method, and the mistake it exists to avoid</h2>
-  <div class="panel">
-    <p style="margin:0 0 8px;color:var(--dim);font-size:14px">
-      Both of these are <code>https://&hellip;</code> in the source, and a regex cannot tell
-      them apart:</p>
-    <table class="cmp">
-      <thead><tr><th>reference</th><th>does the browser fetch it to DRAW the page?</th>
-        <th>counts as an offender?</th></tr></thead>
-      <tbody>
-      <tr>
-        <td data-label="reference">&lt;img src&gt;, &lt;script src&gt;,
-            &lt;link rel=stylesheet&gt;, CSS <code>&#64;import</code>,
-            style <code>url()</code></td>
-        <td data-label="fetched to draw?">yes &mdash; a fail here breaks the page</td>
-        <td data-label="offender?">YES</td></tr>
-      <tr>
-        <td data-label="reference">&lt;a href&gt; to a source URL</td>
-        <td data-label="fetched to draw?">no &mdash; only if the reader clicks</td>
-        <td data-label="offender?">NO</td></tr>
-      </tbody>
-    </table>
-    <p style="margin:9px 0 0;color:var(--dim);font-size:14px">
-      This tool stops reading the source for the verdict. It launches Chrome with every
-      hostname unresolvable and no proxy, loads the page, and reads back what the browser
-      actually tried to fetch and what came back empty (<code>responseStatus:0</code>,
-      <code>transferSize:0</code>). A page is broken only when a subresource the page
-      needed <em>succeeded with the network up and was denied with it down</em>.</p>
+<div class="proposal r2">
+  <span class="badge">RANK 02</span>
+  <h3 class="ptitle">Measure the mint's proposer before changing it</h3>
+  <p class="rationale">The last 20 drafts are 16/20 instrument by strict keyword and 20/20 by hand — the proposer
+  is writing sequels. Deliberately not edited this cycle: no external prior says whether the lever is the selector
+  or the proposer, and Rank 01's kill-test is the measurement that decides it.</p>
+  <div class="tags">
+    <span class="tag eff">EFFORT ~1 h</span>
+    <span class="tag pay">PAYOFF HIGH</span>
+    <span class="tag blk">HOLD — measure first</span>
   </div>
+</div>
 
-  <h2>Every page, worst first</h2>
-  <div class="row bad"><div class="p"><span class="tag">BROKEN</span> sample/tools_calculator_scientific.html</div><div class="m">3 citation link(s) &middot; 3 remote subresource(s) &middot; 7 sibling ref(s) &middot; 30290 bytes</div><div class="u">DENIED IN THE DARK: https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css</div><div class="u">DENIED IN THE DARK: https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap</div><div class="u">DENIED IN THE DARK: https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon.svg"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon-32x32.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon-16x16.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../apple-touch-icon.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../manifest.json"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../assets/css/tool-base.css"&gt;</div><div class="u dim">sibling file, move test: &lt;script src="../../assets/js/tool-chrome.js"&gt;</div></div>
-<div class="row bad"><div class="p"><span class="tag">BROKEN</span> sample/tools_data_histogram-generator.html</div><div class="m">3 citation link(s) &middot; 3 remote subresource(s) &middot; 7 sibling ref(s) &middot; 36871 bytes</div><div class="u">DENIED IN THE DARK: https://cdn.jsdelivr.net/npm/chart.js</div><div class="u">DENIED IN THE DARK: https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap</div><div class="u">DENIED IN THE DARK: https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon.svg"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon-32x32.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon-16x16.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../apple-touch-icon.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../manifest.json"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../assets/css/tool-base.css"&gt;</div><div class="u dim">sibling file, move test: &lt;script src="../../assets/js/tool-chrome.js"&gt;</div></div>
-<div class="row bad"><div class="p"><span class="tag">BROKEN</span> sample/tools_dev_cron-generator.html</div><div class="m">3 citation link(s) &middot; 2 remote subresource(s) &middot; 7 sibling ref(s) &middot; 20693 bytes</div><div class="u">DENIED IN THE DARK: https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap</div><div class="u">DENIED IN THE DARK: https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon.svg"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon-32x32.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon-16x16.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../apple-touch-icon.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../manifest.json"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../assets/css/tool-base.css"&gt;</div><div class="u dim">sibling file, move test: &lt;script src="../../assets/js/tool-chrome.js"&gt;</div></div>
-<div class="row bad"><div class="p"><span class="tag">BROKEN</span> sample/tools_dev_json-formatter.html</div><div class="m">4 citation link(s) &middot; 1 remote subresource(s) &middot; 7 sibling ref(s) &middot; 51331 bytes</div><div class="u">DENIED IN THE DARK: https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon.svg"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon-32x32.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon-16x16.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../apple-touch-icon.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../manifest.json"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../assets/css/tool-base.css"&gt;</div><div class="u dim">sibling file, move test: &lt;script src="../../assets/js/tool-chrome.js"&gt;</div></div>
-<div class="row bad"><div class="p"><span class="tag">BROKEN</span> sample/tools_dev_xml-formatter.html</div><div class="m">4 citation link(s) &middot; 2 remote subresource(s) &middot; 7 sibling ref(s) &middot; 29340 bytes</div><div class="u">DENIED IN THE DARK: https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap</div><div class="u">DENIED IN THE DARK: https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon.svg"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon-32x32.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon-16x16.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../apple-touch-icon.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../manifest.json"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../assets/css/tool-base.css"&gt;</div><div class="u dim">sibling file, move test: &lt;script src="../../assets/js/tool-chrome.js"&gt;</div></div>
-<div class="row bad"><div class="p"><span class="tag">BROKEN</span> sample/tools_game_dice-roller.html</div><div class="m">4 citation link(s) &middot; 2 remote subresource(s) &middot; 7 sibling ref(s) &middot; 28939 bytes</div><div class="u">DENIED IN THE DARK: https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;family=Space+Grotesk:wght@400;500;600&amp;display=swap</div><div class="u">DENIED IN THE DARK: https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon.svg"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon-32x32.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon-16x16.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../apple-touch-icon.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../manifest.json"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../assets/css/tool-base.css"&gt;</div><div class="u dim">sibling file, move test: &lt;script src="../../assets/js/tool-chrome.js"&gt;</div></div>
-<div class="row bad"><div class="p"><span class="tag">BROKEN</span> sample/tools_health_caffeine-half-life-calculator.html</div><div class="m">4 citation link(s) &middot; 2 remote subresource(s) &middot; 7 sibling ref(s) &middot; 63037 bytes</div><div class="u">DENIED IN THE DARK: https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap</div><div class="u">DENIED IN THE DARK: https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon.svg"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon-32x32.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon-16x16.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../apple-touch-icon.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../manifest.json"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../assets/css/tool-base.css"&gt;</div><div class="u dim">sibling file, move test: &lt;script src="../../assets/js/tool-chrome.js"&gt;</div></div>
-<div class="row bad"><div class="p"><span class="tag">BROKEN</span> sample/tools_math_matrix-determinant-inverse.html</div><div class="m">4 citation link(s) &middot; 2 remote subresource(s) &middot; 7 sibling ref(s) &middot; 55175 bytes</div><div class="u">DENIED IN THE DARK: https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap</div><div class="u">DENIED IN THE DARK: https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon.svg"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon-32x32.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon-16x16.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../apple-touch-icon.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../manifest.json"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../assets/css/tool-base.css"&gt;</div><div class="u dim">sibling file, move test: &lt;script src="../../assets/js/tool-chrome.js"&gt;</div></div>
-<div class="row bad"><div class="p"><span class="tag">BROKEN</span> sample/tools_network_websocket-client.html</div><div class="m">3 citation link(s) &middot; 3 remote subresource(s) &middot; 7 sibling ref(s) &middot; 30684 bytes</div><div class="u">DENIED IN THE DARK: https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css</div><div class="u">DENIED IN THE DARK: https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap</div><div class="u">DENIED IN THE DARK: https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon.svg"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon-32x32.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon-16x16.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../apple-touch-icon.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../manifest.json"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../assets/css/tool-base.css"&gt;</div><div class="u dim">sibling file, move test: &lt;script src="../../assets/js/tool-chrome.js"&gt;</div></div>
-<div class="row bad"><div class="p"><span class="tag">BROKEN</span> sample/tools_security_csp-generator.html</div><div class="m">3 citation link(s) &middot; 3 remote subresource(s) &middot; 7 sibling ref(s) &middot; 36364 bytes</div><div class="u">DENIED IN THE DARK: https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css</div><div class="u">DENIED IN THE DARK: https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap</div><div class="u">DENIED IN THE DARK: https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon.svg"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon-32x32.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../favicon-16x16.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../apple-touch-icon.png"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../manifest.json"&gt;</div><div class="u dim">sibling file, move test: &lt;link href="../../assets/css/tool-base.css"&gt;</div><div class="u dim">sibling file, move test: &lt;script src="../../assets/js/tool-chrome.js"&gt;</div></div>
-<div class="row bad"><div class="p"><span class="tag">BROKEN</span> sample/archive_design-reference_components.html</div><div class="m">2 citation link(s) &middot; 1 remote subresource(s) &middot; 0 sibling ref(s) &middot; 47497 bytes</div><div class="u">DENIED IN THE DARK: https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&amp;family=Space+Grotesk:wght@400;500;600;700&amp;family=Inter:wght@400;500;600;700&amp;family=DM+Sans:wght@400;500;600;700&amp;family=Instrument+Serif&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Archivo:wght@500;600;700&amp;family=Fraunces:wght@400;500;600&amp;family=Source+Serif+4:wght@400;500;600&amp;display=swap</div></div>
-
-  <h2>What would falsify this</h2>
-  <div class="panel">
-    <ul>
-      <li>A control page carrying one remote <code>&lt;script src&gt;</code> must be found
-          BROKEN &mdash; and it is, in the self-test, on every run.</li>
-      <li>A page with no remote anything must be found CLEAN &mdash; and it is; that is the
-          negative control, and without it "found nothing" would be indistinguishable from
-          "looked at nothing".</li>
-      <li>The light/dark pair must disagree on the network itself. If both runs report the
-          asset loaded, the blackout failed and this page is worthless.</li>
-      <li>The logic self-test is sliced out of <em>this build</em> between its own marker
-          comments, so the code under test and the test are the same bytes. The slice is
-          then re-executed in a namespace holding nothing but <code>re</code> and
-          <code>json</code> &mdash; on the first run it failed there with a
-          <code>NameError</code>, which is the whole point of testing the bytes you ship
-          rather than the ones you remember writing.</li>
-    </ul>
+<div class="proposal r3">
+  <span class="badge">RANK 03</span>
+  <h3 class="ptitle">Publish the selection-step case study</h3>
+  <p class="rationale">Every framework shipped this month routes, isolates and resumes work; not one instruments
+  which work an agent picks. This fleet has a one-line, reproducible defect in exactly that step, plus an oversight
+  surface only 5% of enterprises have. Blocked: <code>channel_targets</code> returned <code>reachable: 0</code>.</p>
+  <div class="tags">
+    <span class="tag eff">EFFORT ~2 h</span>
+    <span class="tag pay">PAYOFF MEDIUM</span>
+    <span class="tag blk">BLOCKED — no channel, cycle 6</span>
   </div>
+</div>
 
-  <h2>Honest limits</h2>
-  <div class="panel lim">
-    <ul>
-      <li><b>A citation is not proof it was followed.</b> This page proves the cited URL did
-          not load. It does not check the URL still resolves, or still says what the page
-          claims. A dead citation passes this tool.</li>
-      <li><b>Rendering is not layout.</b> Off-screen overflow and the 390px rule are a
-          different measurement (see <code>overflow390.py</code>). This page fires no pixels
-          judgment.</li>
-      <li><b>Excluded deliberately:</b> /workshop/, /.selftest/, /node_modules/, /build/, /.output/, /downloads/, /shots/, /plug-proof/, /.browser-profile/, /test_fixtures/.
-          Loop fixtures, browser-profile internals and build checkpoints are not shipped
-          pages; leaving them out is a decision, not an accident.</li>
-      <li><b>The cache is disabled per launch, not per page.</b> Two pages in one batch share
-          a browser, so a URL fetched by the first page could in principle be served from
-          memory for the second. The counts would not change; a per-page launch would.</li>
-      <li><b>11 of 11 is the finding tonight.</b> A clean sweep is a real
-          result here and not a soft one &mdash; but it only covers the pages in the roots
-          listed below.</li>
-    </ul>
+<h2>THE BEFORE / AFTER — EXECUTED, NOT ARGUED</h2>
+<table>
+  <thead><tr><th></th><th>Status quo</th><th>A1 reverse before slice</th><th>A2 full set</th></tr></thead>
+  <tbody>
+    <tr><td>Focus tonight</td><td class="n">q:13 (0.453)</td><td class="y">q:22 (1.075)</td><td class="y">q:22</td></tr>
+    <tr><td>Candidates offered</td><td class="n">12 of 21</td><td>12 of 21 (newest)</td><td class="y">21 of 21</td></tr>
+    <tr><td>Top-scoring quest a candidate?</td><td class="n">No</td><td class="y">Yes</td><td class="y">Yes</td></tr>
+    <tr><td>Security quests candidate</td><td class="n">0 of 2</td><td>1 of 2</td><td class="y">2 of 2</td></tr>
+    <tr><td>Distribution quests candidate</td><td class="n">0 of 2</td><td class="y">2 of 2</td><td class="y">2 of 2</td></tr>
+  </tbody>
+</table>
+
+<h2>EVIDENCE</h2>
+
+<details>
+  <summary>The five kill-tests, and what they killed</summary>
+  <div class="body">
+    <p><b>K1 — does the focus reach the proposal stage?</b> Yes. <code>sidecar/index.js:7435-7436</code> resolves
+    the focus and leads the propose directive with it. D1 is live.</p>
+    <p><b>K2 — is the focus wrong, or just old?</b> Wrong, and re-derived today. The stored
+    <code>resolvedAt</code> is 10.7 s after the start of UTC day 20762 — the resolver re-ran and chose
+    <code>q:13</code> a second time. Not a stale file.</p>
+    <p><b>K3 — would yesterday's fix have worked?</b> No. Retire <code>q:13</code> → the resolver returns
+    <code>q:11</code>. Ladder to seven survivors: <code>q:13 q:11 q:10 q:7 q:4 q:1 q:12</code> — six of seven
+    instrument. Retiring an anchor against a frozen candidate set is a no-op.</p>
+    <p><b>K4 — are the hidden nine a different lane?</b> Yes. Security <b>0 offered / 2 hidden</b>;
+    distribution <b>0 offered / 2 hidden</b>; cost_ops 1 offered / 3 hidden. The load-bearing fact.</p>
+    <p><b>K5 — is the selector the only starved stage?</b> No. 16/20 drafts instrument <i>independently</i> of the
+    selector. D2 survives. This is the one that decides whether Rank 01 is enough.</p>
   </div>
+</details>
 
-  <h2>How to re-run it</h2>
-  <div class="panel">
-    <p style="margin:0 0 6px;color:var(--dim);font-size:14px">The exact command that produced this page:</p>
-    <p style="margin:0"><code>python3 plug_check.py --scan</code></p>
-    <p style="margin:8px 0 0;color:var(--dim);font-size:14px">The self-test, on these bytes:</p>
-    <p style="margin:0"><code>python3 plug_check.py --selftest</code></p>
-    <p style="margin:8px 0 0;color:var(--dim);font-size:14px">Roots scanned:</p>
-    <p style="margin:0">sample</p>
+<details>
+  <summary>Riskiest assumption + the cheapest kill-test</summary>
+  <div class="body">
+    <p><b>Assumption:</b> the pre-truncated candidate list is the binding constraint on which lane the fleet
+    works — that handing the resolver the newest twelve changes what gets drafted, not merely the header above
+    a template.</p>
+    <p><b>Cheapest test (zero spend, ~0 Commander minutes, ~24 h):</b> apply A1, let the next day-roll re-resolve,
+    read the focus header and the next five drafts.</p>
+    <p><b>Confirm:</b> focus moves to <code>q:22</code> and the drafts leave the instrument lane → D1 was the
+    lever, Rank 01 is done.</p>
+    <p><b>Kill:</b> focus moves to <code>q:22</code> and drafts are <b>still ≥80% instrument</b> → D2 survives,
+    the selector was never the constraint, the whole lever is the proposer's inputs, and Rank 02 becomes Rank 01.
+    <i>K5 already suggests this is the more likely outcome, and I am registering that before the test.</i></p>
   </div>
+</details>
 
-  <footer>
-    verdict signature (a re-run must reproduce this byte-for-byte; only timers may move):<br>
-    <code>[{"broken": ["https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&amp;family=Space+Grotesk:wght@400;500;600;700&amp;family=Inter:wght@400;500;600;700&amp;family=DM+Sans:wght@400;500;600;700&amp;family=Instrument+Serif&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Archivo:wght@500;600;700&amp;family=Fraunces:wght@400;500;600&amp;family=Source+Serif+4:wght@400;500;600&amp;display=swap"], "moved": false, "page": "sample/archive_design-reference_components.html", "verdict": "BROKEN"}, {"broken": ["https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css", "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap", "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap"], "moved": true, "page": "sample/tools_calculator_scientific.html", "verdict": "BROKEN"}, {"broken": ["https://cdn.jsdelivr.net/npm/chart.js", "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap", "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap"], "moved": true, "page": "sample/tools_data_histogram-generator.html", "verdict": "BROKEN"}, {"broken": ["https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap", "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap"], "moved": true, "page": "sample/tools_dev_cron-generator.html", "verdict": "BROKEN"}, {"broken": ["https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap"], "moved": true, "page": "sample/tools_dev_json-formatter.html", "verdict": "BROKEN"}, {"broken": ["https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap", "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap"], "moved": true, "page": "sample/tools_dev_xml-formatter.html", "verdict": "BROKEN"}, {"broken": ["https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;family=Space+Grotesk:wght@400;500;600&amp;display=swap", "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap"], "moved": true, "page": "sample/tools_game_dice-roller.html", "verdict": "BROKEN"}, {"broken": ["https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap", "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap"], "moved": true, "page": "sample/tools_health_caffeine-half-life-calculator.html", "verdict": "BROKEN"}, {"broken": ["https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap", "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap"], "moved": true, "page": "sample/tools_math_matrix-determinant-inverse.html", "verdict": "BROKEN"}, {"broken": ["https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css", "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap", "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap"], "moved": true, "page": "sample/tools_network_websocket-client.html", "verdict": "BROKEN"}, {"broken": ["https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css", "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap", "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap"], "moved": true, "page": "sample/tools_security_csp-generator.html", "verdict": "BROKEN"}]</code><br><br>
-    Pull the Plug &middot; built in the software room &middot; everything here is local:
-    nothing was sent, published, spent or moved off this machine.
-  </footer>
+<details>
+  <summary>What this cycle refuses to claim</summary>
+  <div class="body">
+    <p>That fixing the selector diversifies the lane — K5 says otherwise is plausible.</p>
+    <p>That the security and distribution quests being unreachable means they are <i>important</i>. It means they
+    are <i>unreachable</i>. A reader who thinks they matter most should say so and I will re-rank.</p>
+    <p>Any causal reading of the delivery numbers: 7d <b>125 of 518 (24.1%)</b>; 24h <b>64 runs, 19 delivered
+    (29.7%)</b> — down from 38.9% yesterday on a smaller sample. Inside sampling noise; not a trend.</p>
+    <p>That the <code>.slice(0,8)</code> at <code>index.js:6605</code> is a bug. It is a context line and I did
+    not prove it steers anything.</p>
+    <p><b>Two corrections against my own draft this cycle.</b> The first verifier run printed 4 FAIL and 3 were
+    my assertion defects, not the fleet's — I asserted the focus was stale (it was re-derived today), asserted
+    retiring <code>q:13</code> surfaces <code>q:14</code> (it surfaces <code>q:11</code>), and asserted a lane
+    share under a taxonomy that miscounted instrument titles. The 4th was a real doc defect. Then a second defect
+    no assertion covers: my first draft cited the patch site as <code>6305-6306</code> — off by two lines, the
+    slice is on <b>6303</b> — and the focus header as <code>7436-7437</code> (it is <code>7435-7436</code>).
+    Found by re-reading the source, not by the gate.</p>
+  </div>
+</details>
+
+<details>
+  <summary>Fleet state, pinned to the freeze</summary>
+  <div class="body">
+    <p><b>Store:</b> 230 items across 12 rooms — claimable 23, parked 23, wedged 1, <code>builtRunId</code> set
+    183. Reconciliation exact: 23 + 23 + 1 + 183 = 230. <b>204 of 230 carry <code>attempts: null</code></b>, so
+    the store's own parking rule is evaluated against nothing on 88.7% of items.</p>
+    <p><b>Ledger:</b> 2,232 rows, all at or before the freeze. 7d window 518 rows, 125 delivered. 24h window
+    64 rows, 19 delivered.</p>
+    <p><b>Retired this cycle:</b> the <code>agent</code>-room has-no-job blocker (closed — the room has jobs and
+    runs). <b>Carried forward:</b> the phantom-<code>builtRunId</code> writer, <code>uncertainMutations</code>
+    still dark, the open-detection instrument defect, and the <code>q:13</code> stale-focus state.</p>
+    <p><b>Commander's involvement required:</b> (1) may I edit <code>sidecar/index.js</code> — the running
+    harness's own file, one line at 6303 — I will not patch it unattended; (2) Q13's status — still open, still
+    passes its own completion contract, and it is the quest the selector keeps choosing.</p>
+  </div>
+</details>
+
+<h2>LANDSCAPE — WHAT THE MONTH ACTUALLY SHIPPED</h2>
+<details>
+  <summary>The releases solve execution. None solves selection.</summary>
+  <div class="body">
+    <div class="q">"Agent Substrate has reached its 1.0 milestone and is now generally available as Agent Substrate on GKE" — snapshot/restore of idle agents "in under 500 milliseconds".</div>
+    <div class="q">Unified Brain: "Agents register tasks as database rows with status fields, and the coordination engine assigns work based on agent capabilities and current load."</div>
+    <div class="q">OpenDuet: proactive agents "while maintaining strict user oversight through built-in human-in-the-loop approval mechanisms."</div>
+    <div class="q">LangGraph 1.2.20 "adds a strict resume mode that refuses stale interrupt answers". Friday runs Claude Code and Codex "as collaborative agent crews" locally.</div>
+    <p>Identity, isolation, snapshot/restore, atomic claim, strict resume, audit log. <b>Not one of the surveyed
+    releases addresses how a long-running autonomous agent chooses which declared unit of work to attempt next.</b>
+    Selection is the unshipped primitive, and it is where this fleet's defect is.</p>
+  </div>
+</details>
+
+<details>
+  <summary>The market gap: oversight, not capability — and the tightest number is 5%</summary>
+  <div class="body">
+    <div class="q">"83% rely on existing IT, security or compliance processes … Still, oversight remains largely human-led and procedural, with just <b>5%</b> having automated controls, audit trails, and formal human review points in place."</div>
+    <div class="q">"only <b>26%</b> say they are well prepared to resolve conflicts across agents, systems, and automated workflows" — against 82% who believe they can keep pace.</div>
+    <div class="q">"…compared with <b>3% in Europe and 2% in North America</b>."</div>
+    <div class="q">"31% of B2B buyers say employees spend <b>6 or more hours each week bot-sitting</b>."</div>
+    <div class="q">"only <b>53% can produce a full audit log</b> of what their agents did last week and which agent did it."</div>
+    <div class="q">"<b>81%</b> have already replaced at least one vendor or tool with in-house tooling."</div>
+    <p><b>Caveat, stated before the recommendation:</b> these are vendor-sponsored surveys of self-reported
+    confidence, several published by companies selling the remedy, and their figures are not comparable across
+    instruments. I use them to establish the gap is <i>widely reported</i>, not to size it.</p>
+  </div>
+</details>
+
+<footer>
+  <p class="kv"><b>Sources (fetched in full, diffed against the sentence quoting them):</b></p>
+  <p class="kv">Google Cloud / CNCF — <a href="https://cloud.google.com/blog/products/containers-kubernetes/open-infrastructure-for-autonomous-agents-comes-to-cncf">cloud.google.com</a> (2026-11-05)</p>
+  <p class="kv">OutSystems research — <a href="https://www.outsystems.com/news/outsystems-research-agentic-ai-enterprise-readiness">outsystems.com</a> (2026-10-15)</p>
+  <p class="kv">Regional split — <a href="https://cxotoday.com/research/outsystems-research-only-26-of-enterprises-are-prepared-to-resolve-ai-agent-conflicts/">cxotoday.com</a> (2026-10-16)</p>
+  <p class="kv">G2 2026 AI Agents Report — <a href="https://company.g2.com/news/2026-ai-agents-report">company.g2.com</a> (2026-10-14)</p>
+  <p class="kv">Nylas State of Agentic AI H2 2026 — <a href="https://www.nylas.com/blog/pr/ai-agent-mistakes-survey-state-of-agentic-ai-h2-2026/">nylas.com</a> (2026-10-20)</p>
+  <p class="kv">Redwood benchmarks — <a href="https://www.redwood.com/press-releases/ai-and-agentic-orchestration-benchmarks-report/">redwood.com</a> (2026-10-22)</p>
+  <p class="kv">Unified Brain — <a href="https://emergent.sh/news/unified-brain-replaces-turn-based-llm-agents">emergent.sh</a> (2026-11-03)</p>
+  <p class="kv">OpenDuet — <a href="https://www.thenextgentechinsider.com/pulse/openduet-launches-open-source-framework-for-self-hostable-proactive-ai-agents">thenextgentechinsider.com</a> (2026-11-04)</p>
+  <p class="kv">Framework release index — <a href="https://aiagentnews.io/topics/frameworks">aiagentnews.io</a> (2026-11-05)</p>
+  <p class="kv">Microsoft builder skills — <a href="https://devblogs.microsoft.com/agent-framework/give-your-coding-agent-a-head-start-with-microsoft-agent-framework-skills-for-net-and-python/">devblogs.microsoft.com</a> (2026-11-04)</p>
+  <p class="kv">Friday — <a href="https://emergent.sh/news/friday-run-claude-code-codex-crew-open-source">emergent.sh</a> (2026-11-02)</p>
+  <p class="kv" style="margin-top:11px">Local evidence: <code>sidecar/nightfocus.js</code>, <code>sidecar/index.js:6300-6303</code> and <code>:7435-7436</code>, the twelve <code>*.workshop.json</code> stores, <code>_station.quests.json</code>, <code>nightfocus.state.json</code>, <code>nightshift.drafts.json</code>. Verifier: <code>measure_2026-11-05.py</code> — 35 checks, 35 PASS, exit 0.</p>
+</footer>
+
 </div>
 </body>
 </html>
