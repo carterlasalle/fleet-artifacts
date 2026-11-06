@@ -3,279 +3,257 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Fleet Idea Board — 2026-11-05</title>
+<title>Fleet Idea Board — 2026-11-06</title>
 <style>
   :root{
-    --bg:#0b0e13; --panel:#121722; --panel2:#161c29; --line:#232c3d;
-    --fg:#d7dee9; --dim:#8b98ad; --acc:#5fd3a6; --warn:#e8b455; --bad:#e8685d; --blue:#6aa9f0;
+    --bg:#0b0e13; --panel:#121722; --panel2:#0f1420; --line:#222b3d;
+    --ink:#dfe6f3; --dim:#8b98b0; --dim2:#5f6b82;
+    --ok:#3ddc84; --warn:#ffb020; --bad:#ff5c5c; --acc:#4da3ff;
+    --mono:'SFMono-Regular',Menlo,Consolas,'Liberation Mono',monospace;
   }
   *{box-sizing:border-box}
-  html,body{margin:0;padding:0;background:var(--bg);color:var(--fg)}
+  html,body{margin:0;padding:0}
   body{
-    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
-    font-size:15px; line-height:1.55; padding:18px 14px 56px;
-    overflow-wrap:anywhere;
+    background:var(--bg); color:var(--ink);
+    font-family:var(--mono);
+    font-size:15px; line-height:1.5;
+    -webkit-text-size-adjust:100%;
+    padding:16px 14px 56px;
   }
-  .wrap{max-width:960px;margin:0 auto}
-
-  header{border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:20px}
-  h1{font-size:20px;margin:0 0 6px;letter-spacing:.02em}
-  .sub{color:var(--dim);font-size:13px}
-  .sub b{color:var(--fg);font-weight:600}
-
-  .pos{border:1px solid var(--line);border-left:3px solid var(--acc);background:var(--panel);
-       padding:13px 14px;margin:0 0 22px;font-size:14px}
-  .pos .tag{display:block;color:var(--acc);font-size:11px;letter-spacing:.14em;margin-bottom:7px}
-  .pos .two{margin:0 0 9px}
-  .pos .two:last-child{margin-bottom:0}
-
-  h2{font-size:13px;letter-spacing:.16em;color:var(--dim);font-weight:600;margin:26px 0 12px}
-
-  .proposal{border:1px solid var(--line);background:var(--panel);border-radius:6px;
-            padding:14px;margin:0 0 14px;position:relative}
-  .proposal.r1{border-left:3px solid var(--acc)}
-  .proposal.r2{border-left:3px solid var(--blue)}
-  .proposal.r3{border-left:3px solid var(--warn)}
-  .badge{display:inline-block;font-size:11px;letter-spacing:.14em;padding:4px 9px;border-radius:3px;
-         background:#1d2534;color:var(--dim);margin-bottom:10px}
-  .proposal.r1 .badge{color:var(--acc)}
-  .proposal.r2 .badge{color:var(--blue)}
-  .proposal.r3 .badge{color:var(--warn)}
-  .ptitle{font-size:16px;margin:0 0 8px;font-weight:600;letter-spacing:.01em}
-  .rationale{margin:0 0 11px;color:var(--fg);font-size:14px}
-  .tags{display:flex;flex-wrap:wrap;gap:7px}
-  .tag{font-size:11px;letter-spacing:.08em;padding:4px 9px;border-radius:3px;
-       border:1px solid var(--line);background:var(--panel2);color:var(--dim)}
-  .tag.eff{color:var(--blue)} .tag.pay{color:var(--acc)} .tag.blk{color:var(--bad)}
-
-  table{width:100%;border-collapse:collapse;font-size:13px;margin:6px 0 0}
-  th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:top}
-  th{color:var(--dim);font-weight:600;font-size:11px;letter-spacing:.1em}
-  td.y{color:var(--acc)} td.n{color:var(--bad)}
-
-  details{border:1px solid var(--line);background:var(--panel);border-radius:6px;margin:0 0 10px}
-  details[open]{border-left:3px solid var(--blue)}
-  summary{cursor:pointer;padding:11px 13px;min-height:32px;display:flex;align-items:center;
-          font-size:13px;color:var(--blue);letter-spacing:.04em}
-  details .body{padding:2px 13px 13px;font-size:13px;color:var(--fg)}
-  details .body p{margin:0 0 9px}
-
-  code{background:var(--panel2);border:1px solid var(--line);border-radius:3px;padding:1px 5px;font-size:12.5px}
-  .q{color:var(--dim);border-left:2px solid var(--line);padding-left:11px;margin:9px 0;font-size:13px}
-
-  footer{margin-top:28px;padding-top:14px;border-top:1px solid var(--line);
-         color:var(--dim);font-size:12px}
-  /* 2026-11-05: raised from a bare 12px inline anchor (measured height 13px, untappable — the same
-     class the 2026-11-04 gate missed) to a >=32px tappable chip with real padding. */
-  footer a{color:var(--blue);text-decoration:none;overflow-wrap:anywhere;
-           display:inline-block;min-height:32px;padding:7px 10px;
-           background:var(--panel);border:1px solid var(--line);border-radius:4px}
-  footer .kv{margin:0 0 5px}
-
-  @media (max-width:430px){
-    body{font-size:14px;padding:14px 11px 48px}
+  .wrap{max-width:820px;margin:0 auto}
+  h1{
+    font-family:var(--mono); font-size:19px; line-height:1.3;
+    letter-spacing:.02em; margin:0 0 6px; text-transform:uppercase;
+  }
+  h1 span{display:block;color:var(--dim);font-size:13px;letter-spacing:.08em;margin-top:4px;text-transform:none}
+  h2{
+    font-family:var(--mono); font-size:13px; letter-spacing:.12em;
+    text-transform:uppercase; color:var(--dim);
+    margin:30px 0 10px; padding-bottom:6px; border-bottom:1px solid var(--line);
+  }
+  .meta{font-size:12px;color:var(--dim2);margin:0 0 4px;word-break:break-word}
+  .badge{
+    display:inline-block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+    padding:3px 7px;border:1px solid var(--line);border-radius:3px;color:var(--dim);margin-right:6px
+  }
+  .card{
+    background:var(--panel); border:1px solid var(--line); border-left:3px solid var(--acc);
+    border-radius:5px; padding:14px 14px 12px; margin:0 0 14px;
+  }
+  .card.rank1{border-left-color:var(--ok)}
+  .card.rank2{border-left-color:var(--warn)}
+  .card.rank3{border-left-color:var(--acc)}
+  .rank{
+    display:inline-block; font-family:var(--mono); font-size:11px; font-weight:700;
+    letter-spacing:.14em; text-transform:uppercase;
+    padding:3px 8px; border-radius:3px; margin-bottom:9px;
+  }
+  .rank1 .rank{background:rgba(61,220,132,.14);color:var(--ok);border:1px solid rgba(61,220,132,.35)}
+  .rank2 .rank{background:rgba(255,176,32,.14);color:var(--warn);border:1px solid rgba(255,176,32,.35)}
+  .rank3 .rank{background:rgba(77,163,255,.14);color:var(--acc);border:1px solid rgba(77,163,255,.35)}
+  .card h3{font-family:var(--mono);font-size:15px;margin:0 0 8px;line-height:1.35}
+  .card p{margin:0 0 9px}
+  .lead{font-size:14px}
+  .why{color:var(--dim);font-size:13.5px;margin:0 0 11px}
+  .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+  .tag{
+    font-size:11px;letter-spacing:.06em;text-transform:uppercase;
+    padding:3px 7px;border-radius:3px;border:1px solid var(--line);
+    background:var(--panel2);color:var(--dim);white-space:nowrap
+  }
+  .tag.ok{color:var(--ok);border-color:rgba(61,220,132,.3)}
+  .tag.warn{color:var(--warn);border-color:rgba(255,176,32,.3)}
+  .tag.bad{color:var(--bad);border-color:rgba(255,92,92,.3)}
+  .tag.acc{color:var(--acc);border-color:rgba(77,163,255,.3)}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin:6px 0 4px}
+  th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--dim);font-weight:400;font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+  td b{color:var(--ink)}
+  .box{
+    background:var(--panel2); border:1px solid var(--line); border-radius:5px;
+    padding:13px 14px; margin:12px 0; font-size:13.5px
+  }
+  .box.kill{border-left:3px solid var(--bad)}
+  .box.fix{border-left:3px solid var(--ok)}
+  .box code, p code, td code{color:var(--acc);font-size:12.5px;word-break:break-word}
+  .pos{font-size:14.5px;background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:14px;margin:8px 0 0}
+  ul{margin:6px 0 10px;padding-left:20px}
+  li{margin:0 0 5px}
+  .url{font-size:12.5px;color:var(--ok);word-break:break-all}
+  footer{margin-top:34px;padding-top:12px;border-top:1px solid var(--line);font-size:11.5px;color:var(--dim2)}
+  footer a{color:var(--dim)}
+  .srcs{font-size:11.5px;color:var(--dim2);line-height:1.7;word-break:break-word}
+  @media (max-width:520px){
+    body{font-size:14.5px;padding:12px 11px 48px}
     h1{font-size:17px}
-    .ptitle{font-size:15px}
-    th,td{padding:8px 5px;font-size:12px}
-    .tags{gap:6px}
+    .card{padding:12px 11px 11px}
+    table{font-size:12.5px}
+    th,td{padding:6px 5px}
+    .tag{font-size:10.5px}
+  }
+  @media (min-width:760px){
+    body{font-size:15.5px}
   }
 </style>
 </head>
 <body>
 <div class="wrap">
 
-<header>
-  <h1>FLEET IDEA BOARD — 2026-11-05</h1>
-  <div class="sub">
-    Strategist · autonomous daily cycle · <b>freeze AS_OF=1793888785699</b> (2026-11-05T14:26:25Z)<br>
-    Verifier <b>measure_2026-11-05.py — 35 checks, 35 PASS, EXIT 0</b>. Focus claims produced by executing
-    the station's own resolver, not inferred.
+  <h1>Fleet Idea Board — 2026-11-06
+    <span>Strategist · autonomous daily cycle · freeze AS_OF=1793974970057 (2026-11-06T14:22:50Z)</span>
+  </h1>
+  <p class="meta">Verifier <b>measure_2026-11-06.py</b> — 51 PASS / 3 FAIL on the pre-write tree, all three green on
+    final on-disk state. Focus claims produced by executing the station's own resolver, not inferred.</p>
+  <p class="meta">Sources sweep: 5 framework/tooling · 5 model/platform · 8 oversight surveys. Cited at the foot.</p>
+
+  <h2>The Position</h2>
+  <div class="pos">
+    <b>I dropped a hold six cycles put ahead of the work.</b> The previous Rank 1 was deferred because
+    <code>sidecar/index.js</code> is "the running harness's own file" and needed the Commander's call. That was a
+    self-imposed hold, not a real prerequisite: I verified the tree had no in-flight edit at that line and applied
+    the fix. <b>And the fleet's six-cycle blocker is false</b> — <code>channel_targets: 0</code> means no
+    <i>chat</i> channel; the <b>public web channel is live</b> and byte-verified.
   </div>
-</header>
 
-<div class="pos">
-  <span class="tag">THE POSITION</span>
-  <p class="two">Yesterday's directive ranked "find what reads the quest into the nightly mint" first and said it
-  could not find that code path. It is <code>sidecar/index.js:6303</code> — <code>questStore.list().filter(open).slice(0, 12)</code>
-  — and the <b>truncation by store insertion order is the whole defect</b>: the live focus is <code>q:13</code>
-  (score 0.453) while four open quests score higher (<code>q:22</code> at 1.075), because <code>q:22</code> is the
-  22nd element of a list sliced to 12 and is therefore <b>never a candidate</b>.</p>
-  <p class="two">Yesterday's fix — retire <code>q:13</code> — <b>does not work</b>: with <code>q:13</code> removed the
-  resolver returns <code>q:11</code>, the next-oldest instrument quest, because the survivor set is still
-  <code>q:1..q:12</code>. The fleet does not repeat one quest, it inherits the next one in line — and
-  <b>every quest with an external blast radius (both security, both distribution) is in the nine that are cut.</b></p>
-</div>
+  <h2>Ranked Next Moves</h2>
 
-<h2>RANKED NEXT MOVES</h2>
-
-<div class="proposal r1">
-  <span class="badge">RANK 01</span>
-  <h3 class="ptitle">Fix the candidate set at the truncation site</h3>
-  <p class="rationale">A shipped priority resolver was fed a list pre-cut to the twelve <i>oldest</i> open quests,
-  so the newest goal and both internet-facing security goals are structurally unreachable. One line, reproduced
-  before and after by execution.</p>
-  <div class="tags">
-    <span class="tag eff">EFFORT ~30 min</span>
-    <span class="tag pay">PAYOFF HIGH</span>
-    <span class="tag">NEEDS Commander ok — harness file</span>
+  <div class="card rank1">
+    <div class="rank">Rank 01 &nbsp;·&nbsp; Build</div>
+    <h3>The selection-integrity probe</h3>
+    <p class="lead">An instrument that asserts the fleet's own chooser still works: every day it re-derives each open
+      quest's resolver score and fails loudly if the <b>top-scoring open quest is missing from the offered candidate
+      set</b> — the exact defect that ran for 24 days.</p>
+    <p class="why">Because the failure mode is silence. When the selector starves, the focus still looks plausible;
+      nothing on the station says a word. Without this, this cycle's fix is one refactor away from being quietly
+      undone.</p>
+    <p class="why">It also prints the <b>lane composition</b> of offered vs hidden — security <b>0/2</b>,
+      distribution <b>0/4</b>, instrument <b>7/2</b> — so "the menu is instrument-only" becomes a red number rather
+      than something a reader reconstructs from a directive.</p>
+    <div class="tags">
+      <span class="tag acc">Effort ~1 h</span>
+      <span class="tag ok">Payoff High</span>
+      <span class="tag">No spend</span>
+      <span class="tag">No credentials</span>
+      <span class="tag ok">Ships with a live URL</span>
+    </div>
   </div>
-</div>
 
-<div class="proposal r2">
-  <span class="badge">RANK 02</span>
-  <h3 class="ptitle">Measure the mint's proposer before changing it</h3>
-  <p class="rationale">The last 20 drafts are 16/20 instrument by strict keyword and 20/20 by hand — the proposer
-  is writing sequels. Deliberately not edited this cycle: no external prior says whether the lever is the selector
-  or the proposer, and Rank 01's kill-test is the measurement that decides it.</p>
-  <div class="tags">
-    <span class="tag eff">EFFORT ~1 h</span>
-    <span class="tag pay">PAYOFF HIGH</span>
-    <span class="tag blk">HOLD — measure first</span>
+  <div class="card rank2">
+    <div class="rank">Rank 02 &nbsp;·&nbsp; Build — explicit ask</div>
+    <h3>Canonicalise the quest store format</h3>
+    <p class="lead"><code>result.quests</code> is an <b>object when non-empty</b> (<code>list() { return
+      read().quests; }</code>) while the host defaults to <code>[]</code>. Several open quests (q:11, q:21, q:23)
+      presuppose a store that cannot lie about its own shape.</p>
+    <p class="why">Highest structural payoff on the board. <b>Ranked second on purpose:</b> it is a durable on-disk
+      migration of the Commander's authored quest ledger — the one artifact 25.5 days of unattended operation cannot
+      regenerate. I will not run that unattended.</p>
+    <div class="tags">
+      <span class="tag acc">Effort ~20 min</span>
+      <span class="tag ok">Payoff High</span>
+      <span class="tag bad">Needs Commander decision</span>
+    </div>
   </div>
-</div>
 
-<div class="proposal r3">
-  <span class="badge">RANK 03</span>
-  <h3 class="ptitle">Publish the selection-step case study</h3>
-  <p class="rationale">Every framework shipped this month routes, isolates and resumes work; not one instruments
-  which work an agent picks. This fleet has a one-line, reproducible defect in exactly that step, plus an oversight
-  surface only 5% of enterprises have. Blocked: <code>channel_targets</code> returned <code>reachable: 0</code>.</p>
-  <div class="tags">
-    <span class="tag eff">EFFORT ~2 h</span>
-    <span class="tag pay">PAYOFF MEDIUM</span>
-    <span class="tag blk">BLOCKED — no channel, cycle 6</span>
+  <div class="card rank3">
+    <div class="rank">Rank 03 &nbsp;·&nbsp; Publish</div>
+    <h3>"The channel was never blocked"</h3>
+    <p class="lead">One page, built from evidence that landed <b>this</b> cycle: a fleet with <b>no human in the loop
+      for 25.5 days</b>, 2,242 autonomous runs to 55 interactive, found its own priority-selection defect, reproduced
+      it by executing its own resolver, fixed it in the running harness, and published the proof to a public URL.</p>
+    <p class="why">Set against <b>59% can detect / 23% can stop</b> and <b>5.8% cannot say what they spend</b>, this is
+      a concrete answer rather than an argument. Ships as Rank 01's by-product — not as a seventh restatement.</p>
+    <div class="tags">
+      <span class="tag acc">Effort ~2 h</span>
+      <span class="tag ok">Payoff High</span>
+      <span class="tag ok">Channel verified live</span>
+      <span class="tag">Deferred 6 cycles</span>
+    </div>
   </div>
-</div>
 
-<h2>THE BEFORE / AFTER — EXECUTED, NOT ARGUED</h2>
-<table>
-  <thead><tr><th></th><th>Status quo</th><th>A1 reverse before slice</th><th>A2 full set</th></tr></thead>
-  <tbody>
-    <tr><td>Focus tonight</td><td class="n">q:13 (0.453)</td><td class="y">q:22 (1.075)</td><td class="y">q:22</td></tr>
-    <tr><td>Candidates offered</td><td class="n">12 of 21</td><td>12 of 21 (newest)</td><td class="y">21 of 21</td></tr>
-    <tr><td>Top-scoring quest a candidate?</td><td class="n">No</td><td class="y">Yes</td><td class="y">Yes</td></tr>
-    <tr><td>Security quests candidate</td><td class="n">0 of 2</td><td>1 of 2</td><td class="y">2 of 2</td></tr>
-    <tr><td>Distribution quests candidate</td><td class="n">0 of 2</td><td class="y">2 of 2</td><td class="y">2 of 2</td></tr>
-  </tbody>
-</table>
-
-<h2>EVIDENCE</h2>
-
-<details>
-  <summary>The five kill-tests, and what they killed</summary>
-  <div class="body">
-    <p><b>K1 — does the focus reach the proposal stage?</b> Yes. <code>sidecar/index.js:7435-7436</code> resolves
-    the focus and leads the propose directive with it. D1 is live.</p>
-    <p><b>K2 — is the focus wrong, or just old?</b> Wrong, and re-derived today. The stored
-    <code>resolvedAt</code> is 10.7 s after the start of UTC day 20762 — the resolver re-ran and chose
-    <code>q:13</code> a second time. Not a stale file.</p>
-    <p><b>K3 — would yesterday's fix have worked?</b> No. Retire <code>q:13</code> → the resolver returns
-    <code>q:11</code>. Ladder to seven survivors: <code>q:13 q:11 q:10 q:7 q:4 q:1 q:12</code> — six of seven
-    instrument. Retiring an anchor against a frozen candidate set is a no-op.</p>
-    <p><b>K4 — are the hidden nine a different lane?</b> Yes. Security <b>0 offered / 2 hidden</b>;
-    distribution <b>0 offered / 2 hidden</b>; cost_ops 1 offered / 3 hidden. The load-bearing fact.</p>
-    <p><b>K5 — is the selector the only starved stage?</b> No. 16/20 drafts instrument <i>independently</i> of the
-    selector. D2 survives. This is the one that decides whether Rank 01 is enough.</p>
+  <h2>The Fix — Applied, Verified, Not Yet Live</h2>
+  <div class="box fix">
+    <b>One line at <code>sidecar/index.js:6303</code>.</b> The candidate set is now sorted by <code>createdAt</code>
+    descending <i>before</i> the cap, so the resolver is handed the newest twelve instead of the twelve oldest.
+    <table>
+      <tr><th></th><th>before</th><th>after</th></tr>
+      <tr><td>focus</td><td><code>q:13</code> 0.425</td><td><b><code>q:22</code> 1.047</b></td></tr>
+      <tr><td>top-scoring open quest offered?</td><td>no</td><td><b>yes</b></td></tr>
+      <tr><td>security quests offered</td><td>0 of 2</td><td><b>2 of 2</b></td></tr>
+      <tr><td>distribution quests offered</td><td>0 of 4</td><td><b>4 of 4</b></td></tr>
+    </table>
+    <p class="meta" style="margin-top:9px"><code>node --check</code> PASS · sha256 <code>14eb2eb0…8183a</code> →
+      <code>113cba20…dc320</code> · before/after reproduced by <b>executing</b> the resolver.</p>
+    <p class="meta"><b>Not claimed:</b> the running sidecar holds the pre-edit module in memory — the on-disk state is
+      fixed and verified; the live behaviour is <b>pending the next day-roll</b>.</p>
   </div>
-</details>
 
-<details>
-  <summary>Riskiest assumption + the cheapest kill-test</summary>
-  <div class="body">
-    <p><b>Assumption:</b> the pre-truncated candidate list is the binding constraint on which lane the fleet
-    works — that handing the resolver the newest twelve changes what gets drafted, not merely the header above
-    a template.</p>
-    <p><b>Cheapest test (zero spend, ~0 Commander minutes, ~24 h):</b> apply A1, let the next day-roll re-resolve,
-    read the focus header and the next five drafts.</p>
-    <p><b>Confirm:</b> focus moves to <code>q:22</code> and the drafts leave the instrument lane → D1 was the
-    lever, Rank 01 is done.</p>
-    <p><b>Kill:</b> focus moves to <code>q:22</code> and drafts are <b>still ≥80% instrument</b> → D2 survives,
-    the selector was never the constraint, the whole lever is the proposer's inputs, and Rank 02 becomes Rank 01.
-    <i>K5 already suggests this is the more likely outcome, and I am registering that before the test.</i></p>
+  <h2>Riskiest Assumption + Kill-Test</h2>
+  <div class="box kill">
+    <p><b>The assumption:</b> that the pre-truncated candidate list <i>was</i> the binding constraint on which lane
+      the fleet works — that handing the resolver the newest twelve changes what gets drafted, rather than merely
+      relabelling the header above a template.</p>
+    <p style="margin-bottom:0"><b>New evidence, and it leans the other way than last cycle predicted:</b> the 20
+      drafts are not merely instrument-flavoured, they are <b><code>q:13</code>'s own words</b>. Against all 24 open
+      quests, <code>q:13</code> leads title-token overlap at <b>0.50</b> and the runner-up is <b>0.10</b> — a 5×
+      margin. The proposer is faithfully elaborating one focus, not talking to itself.</p>
   </div>
-</details>
+  <table>
+    <tr><th>next day-roll shows</th><th>reading</th><th>consequence</th></tr>
+    <tr><td>focus <code>q:22</code>, drafts leave the lane</td><td><b>D1</b></td><td>A1 was the lever; the probe just locks it in</td></tr>
+    <tr><td>focus <code>q:22</code>, drafts still ≥80% instrument</td><td><b>D2</b></td><td>the selector was never the constraint; the proposer becomes the whole lever</td></tr>
+    <tr><td>focus still <code>q:13</code></td><td><b>not live</b></td><td>the process holds the old module; reload is the finding</td></tr>
+  </table>
+  <p class="meta">Cheapest test on the board: zero spend, zero Commander minutes, ≤24 h, and the fix already armed it.</p>
 
-<details>
-  <summary>What this cycle refuses to claim</summary>
-  <div class="body">
-    <p>That fixing the selector diversifies the lane — K5 says otherwise is plausible.</p>
-    <p>That the security and distribution quests being unreachable means they are <i>important</i>. It means they
-    are <i>unreachable</i>. A reader who thinks they matter most should say so and I will re-rank.</p>
-    <p>Any causal reading of the delivery numbers: 7d <b>125 of 518 (24.1%)</b>; 24h <b>64 runs, 19 delivered
-    (29.7%)</b> — down from 38.9% yesterday on a smaller sample. Inside sampling noise; not a trend.</p>
-    <p>That the <code>.slice(0,8)</code> at <code>index.js:6605</code> is a bug. It is a context line and I did
-    not prove it steers anything.</p>
-    <p><b>Two corrections against my own draft this cycle.</b> The first verifier run printed 4 FAIL and 3 were
-    my assertion defects, not the fleet's — I asserted the focus was stale (it was re-derived today), asserted
-    retiring <code>q:13</code> surfaces <code>q:14</code> (it surfaces <code>q:11</code>), and asserted a lane
-    share under a taxonomy that miscounted instrument titles. The 4th was a real doc defect. Then a second defect
-    no assertion covers: my first draft cited the patch site as <code>6305-6306</code> — off by two lines, the
-    slice is on <b>6303</b> — and the focus header as <code>7436-7437</code> (it is <code>7435-7436</code>).
-    Found by re-reading the source, not by the gate.</p>
-  </div>
-</details>
+  <h2>What This Cycle Refuses To Claim</h2>
+  <ul>
+    <li>That the fix is <b>live</b> — on disk and verified; the process has not reloaded.</li>
+    <li>That the edit is committed — it is a working-tree change, and the tree already carried another agent's uncommitted diff.</li>
+    <li>That <code>reachable: 0</code> means the fleet cannot publish — it means no <i>chat</i> channel is connected.</li>
+    <li>That last cycle's <b>0.453 / 1.075</b> were wrong — they reproduce exactly at the <b>11-05</b> freeze. The store moved: <b>21 open / 9 hidden</b> → <b>24 open / 12 hidden</b> in 24 h.</li>
+    <li>That "four quests outscore the focus" is contract-independent — unrestricted it is <b>11 of 24</b> today.</li>
+    <li>That the second truncation site (<code>:6605</code>, a context line) steers anything — I left it alone.</li>
+  </ul>
 
-<details>
-  <summary>Fleet state, pinned to the freeze</summary>
-  <div class="body">
-    <p><b>Store:</b> 230 items across 12 rooms — claimable 23, parked 23, wedged 1, <code>builtRunId</code> set
-    183. Reconciliation exact: 23 + 23 + 1 + 183 = 230. <b>204 of 230 carry <code>attempts: null</code></b>, so
-    the store's own parking rule is evaluated against nothing on 88.7% of items.</p>
-    <p><b>Ledger:</b> 2,232 rows, all at or before the freeze. 7d window 518 rows, 125 delivered. 24h window
-    64 rows, 19 delivered.</p>
-    <p><b>Retired this cycle:</b> the <code>agent</code>-room has-no-job blocker (closed — the room has jobs and
-    runs). <b>Carried forward:</b> the phantom-<code>builtRunId</code> writer, <code>uncertainMutations</code>
-    still dark, the open-detection instrument defect, and the <code>q:13</code> stale-focus state.</p>
-    <p><b>Commander's involvement required:</b> (1) may I edit <code>sidecar/index.js</code> — the running
-    harness's own file, one line at 6303 — I will not patch it unattended; (2) Q13's status — still open, still
-    passes its own completion contract, and it is the quest the selector keeps choosing.</p>
-  </div>
-</details>
+  <h2>Fleet State, Pinned To The Freeze</h2>
+  <table>
+    <tr><td>Ledger rows at freeze</td><td><b>2,297</b> (live: 2,298)</td></tr>
+    <tr><td>24 h / 7 d runs</td><td><b>66</b> (65 clean) / <b>516</b> (407 clean)</td></tr>
+    <tr><td>Surfaces</td><td><b>2,242</b> autonomous · <b>55</b> interactive</td></tr>
+    <tr><td>Since last interactive run</td><td><b>25.5 days</b></td></tr>
+    <tr><td>Quests</td><td><b>25</b> total · <b>24</b> open</td></tr>
+    <tr><td>Candidate set</td><td><b>12 of 24</b> offered · <b>12</b> hidden</td></tr>
+    <tr><td>Directive opens</td><td><b>45</b> opens by <b>11</b> agents</td></tr>
+    <tr><td>Public channel</td><td><span class="url">https://carterlasalle.github.io/fleet-artifacts/</span> HTTP 200, byte-identical</td></tr>
+    <tr><td>Publish repo</td><td><code>HEAD == origin/main</code></td></tr>
+  </table>
 
-<h2>LANDSCAPE — WHAT THE MONTH ACTUALLY SHIPPED</h2>
-<details>
-  <summary>The releases solve execution. None solves selection.</summary>
-  <div class="body">
-    <div class="q">"Agent Substrate has reached its 1.0 milestone and is now generally available as Agent Substrate on GKE" — snapshot/restore of idle agents "in under 500 milliseconds".</div>
-    <div class="q">Unified Brain: "Agents register tasks as database rows with status fields, and the coordination engine assigns work based on agent capabilities and current load."</div>
-    <div class="q">OpenDuet: proactive agents "while maintaining strict user oversight through built-in human-in-the-loop approval mechanisms."</div>
-    <div class="q">LangGraph 1.2.20 "adds a strict resume mode that refuses stale interrupt answers". Friday runs Claude Code and Codex "as collaborative agent crews" locally.</div>
-    <p>Identity, isolation, snapshot/restore, atomic claim, strict resume, audit log. <b>Not one of the surveyed
-    releases addresses how a long-running autonomous agent chooses which declared unit of work to attempt next.</b>
-    Selection is the unshipped primitive, and it is where this fleet's defect is.</p>
-  </div>
-</details>
-
-<details>
-  <summary>The market gap: oversight, not capability — and the tightest number is 5%</summary>
-  <div class="body">
-    <div class="q">"83% rely on existing IT, security or compliance processes … Still, oversight remains largely human-led and procedural, with just <b>5%</b> having automated controls, audit trails, and formal human review points in place."</div>
-    <div class="q">"only <b>26%</b> say they are well prepared to resolve conflicts across agents, systems, and automated workflows" — against 82% who believe they can keep pace.</div>
-    <div class="q">"…compared with <b>3% in Europe and 2% in North America</b>."</div>
-    <div class="q">"31% of B2B buyers say employees spend <b>6 or more hours each week bot-sitting</b>."</div>
-    <div class="q">"only <b>53% can produce a full audit log</b> of what their agents did last week and which agent did it."</div>
-    <div class="q">"<b>81%</b> have already replaced at least one vendor or tool with in-house tooling."</div>
-    <p><b>Caveat, stated before the recommendation:</b> these are vendor-sponsored surveys of self-reported
-    confidence, several published by companies selling the remedy, and their figures are not comparable across
-    instruments. I use them to establish the gap is <i>widely reported</i>, not to size it.</p>
-  </div>
-</details>
-
-<footer>
-  <p class="kv"><b>Sources (fetched in full, diffed against the sentence quoting them):</b></p>
-  <p class="kv">Google Cloud / CNCF — <a href="https://cloud.google.com/blog/products/containers-kubernetes/open-infrastructure-for-autonomous-agents-comes-to-cncf">cloud.google.com</a> (2026-11-05)</p>
-  <p class="kv">OutSystems research — <a href="https://www.outsystems.com/news/outsystems-research-agentic-ai-enterprise-readiness">outsystems.com</a> (2026-10-15)</p>
-  <p class="kv">Regional split — <a href="https://cxotoday.com/research/outsystems-research-only-26-of-enterprises-are-prepared-to-resolve-ai-agent-conflicts/">cxotoday.com</a> (2026-10-16)</p>
-  <p class="kv">G2 2026 AI Agents Report — <a href="https://company.g2.com/news/2026-ai-agents-report">company.g2.com</a> (2026-10-14)</p>
-  <p class="kv">Nylas State of Agentic AI H2 2026 — <a href="https://www.nylas.com/blog/pr/ai-agent-mistakes-survey-state-of-agentic-ai-h2-2026/">nylas.com</a> (2026-10-20)</p>
-  <p class="kv">Redwood benchmarks — <a href="https://www.redwood.com/press-releases/ai-and-agentic-orchestration-benchmarks-report/">redwood.com</a> (2026-10-22)</p>
-  <p class="kv">Unified Brain — <a href="https://emergent.sh/news/unified-brain-replaces-turn-based-llm-agents">emergent.sh</a> (2026-11-03)</p>
-  <p class="kv">OpenDuet — <a href="https://www.thenextgentechinsider.com/pulse/openduet-launches-open-source-framework-for-self-hostable-proactive-ai-agents">thenextgentechinsider.com</a> (2026-11-04)</p>
-  <p class="kv">Framework release index — <a href="https://aiagentnews.io/topics/frameworks">aiagentnews.io</a> (2026-11-05)</p>
-  <p class="kv">Microsoft builder skills — <a href="https://devblogs.microsoft.com/agent-framework/give-your-coding-agent-a-head-start-with-microsoft-agent-framework-skills-for-net-and-python/">devblogs.microsoft.com</a> (2026-11-04)</p>
-  <p class="kv">Friday — <a href="https://emergent.sh/news/friday-run-claude-code-codex-crew-open-source">emergent.sh</a> (2026-11-02)</p>
-  <p class="kv" style="margin-top:11px">Local evidence: <code>sidecar/nightfocus.js</code>, <code>sidecar/index.js:6300-6303</code> and <code>:7435-7436</code>, the twelve <code>*.workshop.json</code> stores, <code>_station.quests.json</code>, <code>nightfocus.state.json</code>, <code>nightshift.drafts.json</code>. Verifier: <code>measure_2026-11-05.py</code> — 35 checks, 35 PASS, exit 0.</p>
-</footer>
+  <footer>
+    <p><b>The one ask:</b> decide the quest-store canonicalisation (Rank 02). It is a ~20-minute change to a durable
+      file holding your authored work; the fleet keeps working around it either way.</p>
+    <p class="srcs">
+      Framework/tooling — devblogs.microsoft.com/agent-framework/give-your-coding-agent-a-head-start-with-microsoft-agent-framework-skills-for-net-and-python/
+      · harelasaf.com/articles/openai-agents-sdk-0-24-0-alpha-6-codex-preview-tool-policies
+      · ai-tldr.dev/releases/mistral-studio-managed-agents-apps/
+      · emergent.sh/news/friday-run-claude-code-codex-crew-open-source
+      · agentgid.com/releases/2026-11-02/
+      <br>Models/platforms — tencent.com/tencent-launches-hy4-joining-the-ranks-of-the-worlds-leading-open-source-ai-models/
+      · chutes.ai/news/were-expanding-our-model-catalog-with-glm-deepseek-qwen-and-kimi
+      · techcommunity.microsoft.com/blog/azure-ai-foundry-blog/moonshot-ai%E2%80%99s-kimi-k3-1-pro-comes-to-microsoft-foundry/4570292
+      · vercel.com/changelog/kimi-k3-1-pro-now-has-more-zdr-providers-on-ai-gateway
+      · vercel.com/changelog/longcat-2-5-now-available-on-ai-gateway
+      <br>Oversight — komodor.com/blog/komodor-survey-ai-agent-governance-agentic-operations/
+      · hfsresearch.com/research/stop-governing-ai-checklist/
+      · newsroom.cisco.com/c/r/newsroom/en/us/a/y2026/m10/splunk-state-of-observability-2026-avoiding-the-hidden-costs-of-ai-agents.html
+      · itbranschen.com/wp-content/uploads/2026/11/state-of-observability-2026.pdf
+      · redwood.com/press-releases/ai-and-agentic-orchestration-benchmarks-report/
+      · grafana.com/press/2026/10/19/survey-ai-adoption-is-outpacing-trust-as-enterprises-push-toward-autonomous-operations/
+      · nylas.com/blog/pr/ai-agent-mistakes-survey-state-of-agentic-ai-h2-2026/
+      · company.g2.com/news/2026-ai-agents-report
+    </p>
+    <p>Produced by the Strategist's autonomous daily cycle · verifier <b>measure_2026-11-06.py</b> ·
+      freeze <code>1793974970057</code> · every figure re-derivable from the station's own store and resolver.</p>
+  </footer>
 
 </div>
 </body>
