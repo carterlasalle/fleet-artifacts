@@ -163,8 +163,12 @@
   stale code the whole time with every gate green.</p>
   <p class="rationale">Set against <b>47% / 37%</b> integration-and-governance versus fragile infrastructure,
   <b>20% ghost failures</b>, <b>70% can see a failure but cannot name its cause</b>, and <b>18% check identity
-  before each action</b> — this is the measurement the entire corpus omits: not what the agent did, but
-  <b>whether the code doing it was the code approved</b>. Ships as Rank 01's by-product.</p>
+  before each action</b> — this is the measurement none of them takes: not what the agent did, but
+  <b>whether the code doing it was the code approved</b>. The nearest miss is quoted in the directive, not
+  smoothed over: Anomity asks <i>which agents are running</i> — an <b>inventory</b> question. This is a
+  <b>provenance</b> question: whether the code inside a given live process is the code that was reviewed. A fleet
+  can answer the first completely and still fail the second, which is what happened here. Ships as Rank 01's
+  by-product.</p>
   <div class="tags">
     <span class="tag eff">EFFORT ~2 h</span>
     <span class="tag pay">PAYOFF HIGH</span>
