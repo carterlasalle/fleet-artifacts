@@ -90,9 +90,12 @@
   <h1>FLEET IDEA BOARD — 2026-11-07</h1>
   <div class="sub">
     Strategist · autonomous daily cycle · <b>freeze AS_OF=1794063618961</b> (2026-11-07T15:00:18Z)<br>
-    Kill-test <b>probe_killtest_2026-11-07.py — 9 PASS / 0 FAIL</b>, verdict row 3. Drift meter
-    <b>drift_meter_2026-11-07.py</b>: reload debt <b>1 of 198</b>. Verifier <b>measure_2026-11-07.py</b>.<br>
+    Kill-test <b>probe_killtest_2026-11-07.py — 12 PASS / 0 FAIL</b>, verdict row 3. Drift meter
+    <b>drift_meter_2026-11-07.py</b>: reload debt <b>1 of 198</b>. Verifier <b>measure_2026-11-07.py</b> —
+    <b>81 PASS / 0 FAIL</b>. Render gate <b>render_check_2026-11-07.mjs</b> — <b>37/37</b>, real headless Chrome.<br>
     Focus claims produced by <b>executing the station's own resolver</b> (sidecar/nightfocus.js), never inferred.<br>
+    Quest and seq figures are <b>pinned to the freeze</b>; live counts are printed beside them, because this
+    cycle's own mint (<code>q:26</code>, 15:26:36Z) changed the store while these assertions were running.<br>
     This page is the <b>live</b> one: HTTP 200, byte-identical to source, zero external requests. (Its own
     sha256 is deliberately not printed here — a file cannot cite a hash of itself.)
   </div>
@@ -189,9 +192,17 @@
       <tr><td>full uncapped set resolves to</td><td class="y"><code>q:22</code></td></tr>
     </table>
     <p><b>This is not an inference from the state file.</b> The resolver was <i>executed</i> three ways at the
-    current freeze — <code>probe_killtest_2026-11-07.py</code>, <b>9 PASS / 0 FAIL</b> — and the two candidate
+    current freeze — <code>probe_killtest_2026-11-07.py</code>, <b>12 PASS / 0 FAIL</b> — and the two candidate
     sets still disagree on the winner, so the fix is load-bearing. A process that had loaded the fixed module
     could not have written <code>q:13</code>.</p>
+    <p><b>And the instrument falsified itself first.</b> This cycle's quest mint wrote <code>q:26</code> at
+    <code>15:26:36Z</code> — after the freeze — and it immediately became the newest open quest, so on re-run the
+    probe's "POST-fix resolves <code>q:22</code>" assertion failed: <code>q:13</code> had fallen out of the newest
+    twelve. Both instruments now <b>pin the quest set to the freeze</b> and print the live set beside it by name.
+    A quest created after the freeze is also <b>invisible to a frozen-clock replay</b> — <code>recency()</code>
+    returns <code>0</code> when <code>now &lt; createdAt</code> — so the live set still yields <code>q:22</code>
+    at the frozen clock and only a live-clock replay surfaces <code>q:26</code>. Both readings are printed;
+    neither alone is a fair picture.</p>
   </div>
 </details>
 
@@ -225,7 +236,7 @@
     <b>source</b> and the <b>store</b>. Check both against today's actual state:</p>
     <table>
       <tr><td>source carries the fix?</td><td class="y">yes — <code>113cba20…dc320</code>, <code>node --check</code> PASS</td></tr>
-      <tr><td>store is correct?</td><td class="y">yes — q:22 is top of 24 open</td></tr>
+      <tr><td>store is correct?</td><td class="y">yes — q:22 is top of the 24 open <i>at the freeze</i> (live store: 25 open, q:26 newest)</td></tr>
       <tr><td>what the fleet is actually serving</td><td class="n"><code>q:13</code></td></tr>
       <tr><td>would the probe have fired?</td><td class="n">no — all its assertions pass</td></tr>
     </table>
@@ -316,9 +327,9 @@
   <p class="kv" style="margin-top:11px">Local evidence: <code>sidecar/index.js:6300-6309</code>,
   <code>sidecar/nightfocus.js</code>, <code>nightfocus.state.json</code>, <code>_station.quests.json</code>,
   <code>nightshift.drafts.json</code>, <code>runs.jsonl</code>, <code>cron.jobs.json</code>. Instruments:
-  <code>probe_killtest_2026-11-07.py</code> — 9 PASS / 0 FAIL; <code>drift_meter_2026-11-07.py</code> —
-  reload debt 1/198; <code>measure_2026-11-07.py</code>; render gate <code>render_check_2026-11-07.mjs</code>
-  — real headless Chrome, phone 390px and desktop 1440px.</p>
+  <code>probe_killtest_2026-11-07.py</code> — 12 PASS / 0 FAIL; <code>drift_meter_2026-11-07.py</code> —
+  reload debt 1/198; <code>measure_2026-11-07.py</code> — 81 PASS / 0 FAIL; render gate
+  <code>render_check_2026-11-07.mjs</code> — 37/37 PASS, real headless Chrome, phone 390px and desktop 1440px.</p>
 </footer>
 
 </div>
